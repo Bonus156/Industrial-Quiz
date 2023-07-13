@@ -37,6 +37,7 @@ function FillPage() {
   } = useForm<FormFields>({ mode: 'onSubmit', reValidateMode: 'onSubmit' });
 
   const addQuestion: SubmitHandler<FormFields> = (data) => {
+    console.log(data);
     const newQuestion: Question = {
       question: data.question,
       answers: [
@@ -70,13 +71,13 @@ function FillPage() {
         <div>
           <label className="cursor-pointer mr-4 my-4">
             <input
-              className="mr-2"
+              className="cursor-pointer mr-2"
               type="radio"
               {...register('correctAns', { required: 'Correct answer must be selected' })}
               value="a"
             />
+            <span>a.</span>
             <label>
-              <span>First answer</span>
               <input
                 className="cursor-text border rounded px-4 py-2 m-2"
                 type="text"
@@ -92,13 +93,13 @@ function FillPage() {
           </label>
           <label className="cursor-pointer mr-4 my-4">
             <input
-              className="mr-2"
+              className="cursor-pointer mr-2"
               type="radio"
               {...register('correctAns', { required: 'Correct answer must be selected' })}
               value="b"
             />
+            <span>b.</span>
             <label>
-              <span>Second answer</span>
               <input
                 className="cursor-text border rounded px-4 py-2 m-2"
                 type="text"
@@ -114,13 +115,13 @@ function FillPage() {
           </label>
           <label className="cursor-pointer mr-4 my-4">
             <input
-              className="mr-2"
+              className="cursor-pointer mr-2"
               type="radio"
               {...register('correctAns', { required: 'Correct answer must be selected' })}
               value="c"
             />
+            <span>c.</span>
             <label>
-              <span>Third answer</span>
               <input
                 className="cursor-text border rounded px-4 py-2 m-2"
                 type="text"
@@ -144,43 +145,10 @@ function FillPage() {
             type="submit"
             value="Push"
           />
+          <button className="cursor-pointer border font-semibold rounded px-4 py-2 w-fit bg-green-400 hover:bg-green-500" type="button" id ="show">To Clipboard and Show</button>
           {/* {confirmText && <span className="ml-2 font-bold text-green-800">{confirmText}</span>} */}
         </div>
       </form>
-
-
-
-      <div className="theme-block">
-        <label htmlFor="theme">Тема:</label>
-        <textarea id="theme" name="theme" rows={4} cols={50}></textarea>
-      </div>
-      <div className="question-block">
-        <label htmlFor="question">Question:</label>
-        <textarea id="question" name="question" rows={4} cols={50}></textarea>
-      </div>
-      <div className="answers">
-        <div className="answer-block">
-          <input type="radio" id="answer1" />
-          <label htmlFor="answer1">
-            <textarea id="answer1-text" name="answer" rows={4} cols={50}></textarea>
-          </label>
-        </div>
-        <div className="answer-block">
-          <input type="radio" id="answer2" />
-          <label htmlFor="answer2">
-            <textarea id="answer2-text" name="answer" rows={4} cols={50}></textarea>
-          </label>
-        </div>
-        <div className="answer-block">
-          <input type="radio" id="answer3" />
-          <label htmlFor="answer3">
-            <textarea id="answer3-text" name="answer" rows={4} cols={50}></textarea>
-          </label>
-        </div>
-        <button type="button" id="push">Push</button>
-        <button type="button" id ="show">To Clipboard and Show</button> 
-      </div>
-      <textarea id="result" name="result" readOnly rows={8} cols={60}></textarea>
     </div>
   )
 }
