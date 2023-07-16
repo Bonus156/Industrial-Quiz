@@ -1,6 +1,6 @@
 function NotFoundPage() {
   return (
-    <div>
+    <div className="container mx-auto flex-grow">
       <h1>404</h1>
       <p>Not Found</p>
     </div>

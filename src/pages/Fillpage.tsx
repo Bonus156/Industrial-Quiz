@@ -11,11 +11,6 @@ type Question = {
   answers: Answer[];
 }
 
-interface Theme {
-  theme: string;
-  questions: Question[];
-}
-
 type FormFields = {
   theme: string;
   question: string;
@@ -52,8 +47,8 @@ function FillPage() {
   };
 
   return (
-    <div className="wrapper">
-      <form className="container mx-auto flex flex-col" onSubmit={handleSubmit(addQuestion)}>
+    <div className="container mx-auto flex-grow">
+      <form className="flex flex-col" onSubmit={handleSubmit(addQuestion)}>
         <label>
           <span>Question</span>
           <input

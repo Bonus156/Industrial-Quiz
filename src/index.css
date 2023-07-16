@@ -1,3 +1,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --nav-element-w: 2em;
+  --nav-element-h: 2.5em;
+  --border-v: 1px;
+}
+
+@layer components {
+  .incorrect {
+    @apply after:invisible bg-red-700;
+  }
+  .correct {
+    @apply after:visible bg-green-700;
+  }
+}
