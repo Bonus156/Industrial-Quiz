@@ -1,4 +1,4 @@
-type Question = {
+export type QuestionType = {
   question: string;
   answers: string[];
   rightAnswer: string;
@@ -9,7 +9,7 @@ type Question = {
 export type Theme = {
   theme: string;
   themeRoute: string;
-  questions: Question[];
+  questions: QuestionType[];
 }
 
 export const themes: Theme[] = [

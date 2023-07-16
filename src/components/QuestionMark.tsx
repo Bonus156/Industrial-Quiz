@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 function QuestionMark() {
+  const [isAnswered, setIsAnswered] = useState(false);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   return (
     <li className="nav-item relative cursor-pointer shrink-0 list-decimal list-inside w-[var(--nav-element-w)] h-[var(--nav-element-h)] text-center border border-solid rounded border-black">
