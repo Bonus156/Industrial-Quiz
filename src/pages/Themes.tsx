@@ -1,5 +1,5 @@
 import { themes } from "../json/questions";
-import { Route, Routes, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function ThemesPage() {
   return (

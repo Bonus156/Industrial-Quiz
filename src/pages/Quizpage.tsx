@@ -10,22 +10,25 @@ export type QState = {
   isAnswered: boolean;
   isCorrect: boolean;
   number: number;
+  index: number;
 }
 
-export const QuestionContext = createContext([]);
+export const QuestionContext = createContext<QState[]>([]);
 
 function QuizPage() {
   const {themeRoute} = useParams();
   const theme = themes.find((currentTheme) => currentTheme.themeRoute === themeRoute);
   const questions = theme?.questions || [];
-  // const generateItemsForQState = () => {
-  const initialQState = new Array(questions.length).fill('').map((_, i) => ({isAnswered: false, isCorrect: false, number: i}))
-  // };
-  // const initialQState = generateItemsForQState();
+  
+  const initialQState = new Array(questions.length).fill('').map((_, i) => ({isAnswered: false, isCorrect: false, number: i, index: -1}))
+  
   const [qState, setQState] = useState<QState[]>(initialQState);
   const onGiveAnswer = (formField: AnswerFormField) => {
     console.log(formField);
-    
+    qState[formField.num].isAnswered = true;
+    qState[formField.num].isCorrect = formField.isCorrect;
+    qState[formField.num].index = formField.indexAnswer;
+    setQState([...qState]);
   }
 
   return (
@@ -35,11 +38,11 @@ function QuizPage() {
         <p>Industrial quiz</p>
         <h2>Темa: {theme?.theme}</h2>
         <ol className="flex flex-wrap list-inside gap-1.5">{questions.map((_, number) => (
-          <Link to={number.toString()}><QuestionMark num={number} /></Link>
+          <Link to={number.toString()} key={number}><QuestionMark num={number} /></Link>
         ))}
         </ol>
         <Routes>{questions.map((question, number) => (
-          <Route path={number.toString()} element={<Question question={question} num={number + 1} onGiveAnswer={onGiveAnswer} />} />
+          <Route path={number.toString()} key={question.question} element={<Question question={question} num={number} onGiveAnswer={onGiveAnswer} />} />
         ))}
         </Routes>
       </div>

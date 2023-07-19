@@ -1,7 +1,8 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { QuestionType } from "../json/questions";
 import { QState, QuestionContext } from "../pages/QuizPage";
 import { AnswerFormField } from "../types/types";
+import { AnswerMark } from "./QuestionMark";
 
 type QuestionProps = {
   question: QuestionType;
@@ -16,11 +17,15 @@ interface AnswerFormProps {
 }
 
 type AnsFormFields = {
-  answer: HTMLInputElement,
+  // answer: HTMLInputElement,
+  answer: RadioNodeList,
 }
 
 function AnswerForm(props: AnswerFormProps) {
   const qState: QState[] = useContext(QuestionContext);
+  useEffect(() => {
+    
+  })
   const handleSubmit: React.FormEventHandler<HTMLFormElement & AnsFormFields> = (event) => {
     event.preventDefault();
     const form = event.currentTarget;
@@ -30,20 +35,23 @@ function AnswerForm(props: AnswerFormProps) {
       num: props.num,
       isCorrect: props.question.rightAnswer.slice(18) === answer.value,
       correctAnswer: props.question.rightAnswer,
+      // indexAnswer: +answer.id.split('_')[1],
+      indexAnswer: Array.from(answer).findIndex((input) => input.checked === true),
     });
+    console.log(answer);
     qState[props.num].isAnswered = true;
   }
 
   return (
     <form onSubmit={handleSubmit}>
       {props.question.answers.map((currAnswer, index) => (
-        <div className="answer_variant" key={currAnswer}>
-          <label htmlFor={`variant-${index}`}>
-            <input type="radio" className="variant-radio" name="answer" id={`variant-${index}`} value={currAnswer} disabled={qState[props.num].isAnswered} />
+        <div className="answer_variant flex w-full justify-between" key={currAnswer}>
+          <label htmlFor={`variant-${props.num}_${index}`}>
+            <input type="radio" className="variant-radio" name="answer" id={`variant-${props.num}_${index}`} value={currAnswer} disabled={qState[props.num].isAnswered} defaultChecked={qState[props.num].index === index} />
             <span className="letter">{String.fromCharCode(97 + index)}. </span>
             <span className="variant-text" id={`variant-answer-${index}`}>{currAnswer}</span>
           </label>
-          <div className="mark"></div>
+          <div className="mark relative"><AnswerMark num={props.num} index={index} /></div>
         </div>
       ))}
       <input type="submit" className="border cursor-pointer bg-gray-100 hover:bg-gray-200" value="Ответить" disabled={qState[props.num].isAnswered} />
