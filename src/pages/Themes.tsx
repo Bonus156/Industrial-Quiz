@@ -1,9 +1,5 @@
-import * as json from "../json/questions.json";
+import themes from "../json/questions.json";
 import { Link } from "react-router-dom";
-import { Theme } from "../types/types";
-
-const themes: Theme[] = json.default;
-
 
 function ThemesPage() {
   console.log(themes);

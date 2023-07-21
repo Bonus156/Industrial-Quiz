@@ -36,7 +36,7 @@ function AnswerForm(props: AnswerFormProps) {
       isCorrect: props.question.rightAnswer.slice(18) === answer.value,
       correctAnswer: props.question.rightAnswer,
       // indexAnswer: +answer.id.split('_')[1],
-      indexAnswer: Array.from(answer).findIndex((input) => input.checked === true),
+      indexAnswer: Array.from(answer).findIndex((input) => (input as HTMLInputElement).checked === true),
     });
     console.log(answer);
     qState[props.num].isAnswered = true;
