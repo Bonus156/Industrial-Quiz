@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import { QuestionType } from "../json/questions";
+import { QuestionType } from "../types/types";
 import { QState, QuestionContext } from "../pages/QuizPage";
 import { AnswerFormField } from "../types/types";
 import { AnswerMark } from "./QuestionMark";

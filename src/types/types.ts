@@ -5,3 +5,17 @@ export type AnswerFormField = {
   correctAnswer: string;
   indexAnswer: number;
 };
+
+export type QuestionType = {
+  question: string;
+  answers: string[];
+  rightAnswer: string;
+  link: string;
+  linkText: string;
+}
+
+export type Theme = {
+  theme: string;
+  themeRoute: string;
+  questions: QuestionType[];
+}
