@@ -3,8 +3,8 @@ import { useParams } from "react-router-dom";
 import { Route, Routes, Link } from "react-router-dom";
 import { QuestionMark } from "../components/QuestionMark";
 import { Question } from "../components/Question";
-import { AnswerFormField, Theme } from '../types/types';
-import * as json from "../json/questions.json";
+import { AnswerFormField } from '../types/types';
+import themes from "../json/questions.json";
 
 export type QState = {
   isAnswered: boolean;
@@ -12,19 +12,6 @@ export type QState = {
   number: number;
   index: number;
 }
-
-const themes: Theme[] = json.default;
-
-// async function getThemes() {  
-//   const themes = '../json/questions.json';
-//   const response = await fetch(themes);
-//   const data = await response.json();
-//   return data;
-// }
-
-// const themes: Theme[] = getThemes();
-
-// let themes = require('../json/questions.json');
 
 export const QuestionContext = createContext<QState[]>([]);
 
@@ -43,10 +30,6 @@ function QuizPage() {
     qState[formField.num].index = formField.indexAnswer;
     setQState([...qState]);
   }
-
-  // const hideButton = (event: PointerEvent) => {
-  //   event.currentTarget.classList.add('invisible');
-  // }
 
   return (
     <QuestionContext.Provider value={qState}>
