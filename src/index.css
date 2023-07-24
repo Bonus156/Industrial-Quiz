@@ -3,9 +3,10 @@
 @tailwind utilities;
 
 :root {
-  --nav-element-w: 2em;
-  --nav-element-h: 2.5em;
+  --nav-element-w: 2.25em;
+  --nav-element-h: 2.75em;
   --border-v: 1px;
+  --border-v2: 2px;
 }
 
 @layer components {
