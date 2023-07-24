@@ -1,13 +1,14 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { QuestionType } from "../types/types";
 import { QState, QuestionContext } from "../pages/QuizPage";
 import { AnswerFormField } from "../types/types";
 import { AnswerMark } from "./QuestionMark";
+import { useParams } from "react-router-dom";
 
 type QuestionProps = {
-  question: QuestionType;
-  num: number;
+  questions: QuestionType[];
   onGiveAnswer: (data: AnswerFormField) => void;
+  setQuestionNumber: (num: number) => void;
 }
 
 interface AnswerFormProps {
@@ -17,15 +18,12 @@ interface AnswerFormProps {
 }
 
 type AnsFormFields = {
-  // answer: HTMLInputElement,
   answer: RadioNodeList,
 }
 
 function AnswerForm(props: AnswerFormProps) {
   const qState: QState[] = useContext(QuestionContext);
-  useEffect(() => {
-    
-  })
+  
   const handleSubmit: React.FormEventHandler<HTMLFormElement & AnsFormFields> = (event) => {
     event.preventDefault();
     const form = event.currentTarget;
@@ -35,7 +33,6 @@ function AnswerForm(props: AnswerFormProps) {
       num: props.num,
       isCorrect: props.question.rightAnswer.slice(18) === answer.value,
       correctAnswer: props.question.rightAnswer,
-      // indexAnswer: +answer.id.split('_')[1],
       indexAnswer: Array.from(answer).findIndex((input) => (input as HTMLInputElement).checked === true),
     });
     console.log(answer);
@@ -60,16 +57,19 @@ function AnswerForm(props: AnswerFormProps) {
 }
 
 export function Question(props: QuestionProps) {
+  const {activeQuestion} = useParams();
+  const questionNumber = Number(activeQuestion);
+  props.setQuestionNumber(questionNumber);
   
   return (
-    <div className="flex flex-wrap">
+    <div className="flex flex-wrap peer">
       <div className="flex">
         <div className="flex flex-col">
-          <span>Вопрос {props.num}</span>
+          <span>Вопрос {questionNumber + 1}</span>
         </div>
         <div className="flex flex-col">
-          <div>{props.question.question}</div>
-          <AnswerForm num={props.num} question={props.question} onGiveAnswer={props.onGiveAnswer} />          
+          <div>{props.questions[questionNumber].question}</div>
+          <AnswerForm num={questionNumber} question={props.questions[questionNumber]} onGiveAnswer={props.onGiveAnswer} />          
         </div>
       </div>
     </div>

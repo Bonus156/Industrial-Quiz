@@ -8,7 +8,7 @@ function ThemesPage() {
       <h1>Themes</h1>
       <h2>Темы:</h2>
       <ul>{themes.map((theme) => (
-          <li key={theme.themeRoute}><Link to={`/quiz/${theme.themeRoute}`}>{theme.theme} | вопросов: {theme.questions.length}</Link></li>
+          <li key={theme.themeRoute}><Link to={`/quiz/${theme.themeRoute}/0`}>{theme.theme} | вопросов: {theme.questions.length}</Link></li>
       ))}
       </ul>
     </div>
