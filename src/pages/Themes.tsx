@@ -2,7 +2,6 @@ import themes from "../json/questions.json";
 import { Link } from "react-router-dom";
 
 function ThemesPage() {
-  console.log(themes);
   return (
     <div className="container mx-auto flex-grow">
       <h1>Themes</h1>

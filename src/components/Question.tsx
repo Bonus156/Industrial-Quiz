@@ -35,7 +35,6 @@ function AnswerForm(props: AnswerFormProps) {
       correctAnswer: props.question.rightAnswer,
       indexAnswer: Array.from(answer).findIndex((input) => (input as HTMLInputElement).checked === true),
     });
-    console.log(answer);
     qState[props.num].isAnswered = true;
   }
 
@@ -67,20 +66,26 @@ export function Question(props: QuestionProps) {
   
   return (
     <div className="flex flex-wrap p-4 border border-solid border-gray-300">
-      <div className="flex gap-5">
-        <div className="quest-num w-28 shrink-0">
+      <div className="flex gap-5 sm:flex-row flex-col w-full">
+        <div className="quest-num sm:w-28 w-full shrink-0">
           <div className="flex flex-col p-2 bg-gray-350 h-16">
             <span className="text-sm">Вопрос <span className="text-base font-bold">{questionNumber + 1}</span></span>
             {qState[questionNumber].isAnswered && <span className="text-sm">{qState[questionNumber].isCorrect ? 'Верно' : 'Неверно'}</span>}
           </div>
         </div>
-        <div className="flex flex-col bg-welcome text-ask px-4 py-2">
-          <div>{props.theme.questions[questionNumber].question}</div>
-          <AnswerForm num={questionNumber} question={props.theme.questions[questionNumber]} onGiveAnswer={props.onGiveAnswer} />          
+        <div className="question-answer flex flex-col gap-5 flex-grow">
+          <div className="flex flex-col bg-welcome text-ask px-4 py-2">
+            <div>{props.theme.questions[questionNumber].question}</div>
+            <AnswerForm num={questionNumber} question={props.theme.questions[questionNumber]} onGiveAnswer={props.onGiveAnswer} />          
+          </div>
+          {qState[questionNumber].isAnswered && <div className="answer flex flex-col bg-fox text-answer px-4 py-2">
+            <Link to={props.theme.questions[questionNumber].link} className="text-primhover hover:underline">{props.theme.questions[questionNumber].linkText}</Link>
+            <div className="right-answer mt-4">{props.theme.questions[questionNumber].rightAnswer}</div>
+          </div>}
         </div>
       </div>
       <div className="navigate-buttons flex w-full justify-between mt-10">
-        <Link to={`/quiz/${props.theme.themeRoute}/${questionNumber - 1}`} className={`bg-secondary p-2 hover:bg-sechover text-prev ${questionNumber === 0 ? 'pointer-events-none' : 'pointer-events-auto'}`}>Предыдущий вопрос</Link>
+        <Link to={`/quiz/${props.theme.themeRoute}/${questionNumber - 1}`} className={`bg-secondary p-2 mr-3 hover:bg-sechover text-prev ${questionNumber === 0 ? 'pointer-events-none' : 'pointer-events-auto'}`}>Предыдущий вопрос</Link>
         <Link to={`/quiz/${props.theme.themeRoute}/${questionNumber + 1}`} className={`bg-primary p-2 hover:bg-primhover text-white ${questionNumber === props.theme.questions.length - 1 ? 'pointer-events-none' : 'pointer-events-auto'}`}>Следующий вопрос</Link>
       </div>
     </div>

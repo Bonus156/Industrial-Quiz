@@ -38,7 +38,9 @@ module.exports = {
         'prev': '#212529', //previous question btn text color
         'success': '#398439',
         'info': '#008196',
-        'ask': '#00434e',
+        'ask': '#00434e', // color question text
+        'fox': '#fcefdc', // bg right answer block
+        'answer': '#7d5a29', // right answer text
         'warning': '#f0ad4e',
         'danger': '#d43f3a',
         'light': '#f8f9fa',

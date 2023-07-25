@@ -21,8 +21,6 @@ export function QuestionMark(props: QMProps) {
   )
 }
 
-// w-[calc(var(--nav-element-w)-2*var(--border-v))] h-[calc(var(--nav-element-h)/2-2*var(--border-v))]
-
 export function AnswerMark(props: AMProps) {
   const qState: QState[] = useContext(QuestionContext);
   
