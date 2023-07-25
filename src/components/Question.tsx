@@ -42,16 +42,16 @@ function AnswerForm(props: AnswerFormProps) {
   return (
     <form onSubmit={handleSubmit}>
       {props.question.answers.map((currAnswer, index) => (
-        <div className="answer_variant flex w-full justify-between px-2" key={currAnswer}>
-          <label htmlFor={`variant-${props.num}_${index}`}>
-            <input type="radio" className="variant-radio mr-1" name="answer" id={`variant-${props.num}_${index}`} value={currAnswer} disabled={qState[props.num].isAnswered} defaultChecked={qState[props.num].index === index} />
-            <span className="letter">{String.fromCharCode(97 + index)}. </span>
+        <div className="answer_variant flex w-full justify-between px-2 my-2" key={currAnswer}>
+          <label className="flex items-start" htmlFor={`variant-${props.num}_${index}`}>
+            <input type="radio" className="variant-radio mr-1.5 mt-1.5" name="answer" id={`variant-${props.num}_${index}`} value={currAnswer} disabled={qState[props.num].isAnswered} defaultChecked={qState[props.num].index === index} />
+            <span className="letter mr-1">{String.fromCharCode(97 + index)}. </span>
             <span className="variant-text" id={`variant-answer-${index}`}>{currAnswer}</span>
           </label>
-          <div className="mark relative"><AnswerMark num={props.num} index={index} /></div>
+          <div className="mark relative m-1.5"><AnswerMark num={props.num} index={index} /></div>
         </div>
       ))}
-      {!qState[props.num].isAnswered && <input type="submit" className="border cursor-pointer bg-secondary p-2 hover:bg-sechover text-prev" value="Ответить" disabled={qState[props.num].isAnswered} />}
+      {!qState[props.num].isAnswered && <input type="submit" className="border cursor-pointer bg-secondary p-2 my-2 hover:bg-sechover text-prev" value="Ответить" disabled={qState[props.num].isAnswered} />}
     </form>
   )
 }
