@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { Route, Routes, Link } from "react-router-dom";
 import { QuestionMark } from "../components/QuestionMark";
 import { Question } from "../components/Question";
-import { AnswerFormField } from '../types/types';
+import { AnswerFormField, Theme } from '../types/types';
 import themes from "../json/questions.json";
 
 export type QState = {
@@ -16,11 +16,11 @@ export type QState = {
 export const QuestionContext = createContext<QState[]>([]);
 
 function QuizPage() {
-  const [questNum, setQuestNum] = useState(1);
+  const [questNum, setQuestNum] = useState(0);
   const {themeRoute} = useParams();
   
-  const theme = themes.find((currentTheme) => currentTheme.themeRoute === themeRoute);
-  const questions = theme?.questions || [];
+  const theme = themes.find((currentTheme) => currentTheme.themeRoute === themeRoute) as Theme;
+  const questions = theme.questions;
   const initialQState = new Array(questions.length).fill('').map((_, i) => ({isAnswered: false, isCorrect: false, number: i, index: -1}))
   const [qState, setQState] = useState<QState[]>(initialQState);
   
@@ -38,18 +38,22 @@ function QuizPage() {
   return (
     <QuestionContext.Provider value={qState}>
       <div className="container mx-auto flex-grow">
-        <h1>Quiz</h1>
-        <p>Industrial quiz</p>
-        <h2>Темa: {theme?.theme}</h2>
-        <section className="quiz flex">
-          <Routes>{questions.map((question, _, questions) => (
-            <Route path=':activeQuestion' key={question.question} element={<Question questions={questions} onGiveAnswer={onGiveAnswer} setQuestionNumber={setQuestNum} />} />
+        <h1>Industrial quiz</h1>
+        <p>Подготовка к проверке знаний</p>
+        <h2 className='text-4xl my-3'>{theme?.theme}</h2>
+        <section className="quiz flex gap-3 flex-col xl:flex-row">
+          <div className="test-main">
+            <Routes>{questions.map((question, _) => (
+              <Route path=':activeQuestion' key={question.question} element={<Question theme={theme} onGiveAnswer={onGiveAnswer} setQuestionNumber={setQuestNum} />} />
+              ))}
+            </Routes>
+          </div>
+          <aside className="test-navigation border p-2 xl:w-96 shrink-0 border-gray-300">
+            <ol className="flex flex-wrap list-inside gap-1.5">{questions.map((_, number) => (
+              <Link to={number.toString()} key={number}><QuestionMark num={number} questNum={questNum} /></Link>
             ))}
-          </Routes>
-          <ol className="flex flex-wrap list-inside gap-1.5 max-w-sm">{questions.map((_, number) => (
-            <Link to={number.toString()} key={number}><QuestionMark num={number} questNum={questNum} /></Link>
-          ))}
-          </ol>          
+            </ol>
+          </aside>
         </section>
       </div>
     </QuestionContext.Provider>

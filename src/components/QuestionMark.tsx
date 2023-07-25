@@ -28,8 +28,8 @@ export function AnswerMark(props: AMProps) {
   
   return (
     <>
-      {qState[props.num].isAnswered && qState[props.num].isCorrect && qState[props.num].index === props.index && <div className="absolute border-solid border-green-700 border-r-3 border-b-3 rotate-45 w-2 h-3"></div>}
-      {qState[props.num].isAnswered && !qState[props.num].isCorrect && qState[props.num].index === props.index && <div className="absolute bg-red-700 rotate-45 w-1 h-4 after:absolute after:bg-red-700 after:rotate-90 after:h-4 after:w-1"></div>}
+      {qState[props.num].isAnswered && qState[props.num].isCorrect && qState[props.num].index === props.index && <div className="absolute border-solid border-green-650 border-r-3 border-b-3 rotate-45 w-2 h-3"></div>}
+      {qState[props.num].isAnswered && !qState[props.num].isCorrect && qState[props.num].index === props.index && <div className="absolute bg-red-550 rotate-45 w-1 h-4 after:absolute after:bg-red-550 after:rotate-90 after:h-4 after:w-1"></div>}
     </>
   )
 }
