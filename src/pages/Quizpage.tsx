@@ -5,6 +5,7 @@ import { QuestionMark } from "../components/QuestionMark";
 import { Question } from "../components/Question";
 import { AnswerFormField, Theme } from '../types/types';
 import themes from "../json/questions.json";
+import { endDate, timer } from '../utils/timer';
 
 export type QState = {
   isAnswered: boolean;
@@ -25,7 +26,6 @@ function QuizPage() {
   const [qState, setQState] = useState<QState[]>(initialQState);
   
   const onGiveAnswer = (formField: AnswerFormField) => {
-    console.log(formField);
     const currentQuestionState = qState.find((question) => question.number === formField.num);
     if (currentQuestionState) {
       currentQuestionState.isAnswered = true;
@@ -42,13 +42,15 @@ function QuizPage() {
         <p>Подготовка к проверке знаний</p>
         <h2 className='text-4xl my-3'>{theme?.theme}</h2>
         <section className="quiz flex gap-3 flex-col xl:flex-row">
-          <div className="test-main">
+          <div className="test-main  flex-grow">
             <Routes>{questions.map((question, _) => (
               <Route path=':activeQuestion' key={question.question} element={<Question theme={theme} onGiveAnswer={onGiveAnswer} setQuestionNumber={setQuestNum} />} />
               ))}
             </Routes>
           </div>
           <aside className="test-navigation border p-2 xl:w-96 shrink-0 border-gray-300">
+            <div>Оставшееся время: {timer(endDate)}</div>
+            <div>Навигация по тесту</div>
             <ol className="flex flex-wrap list-inside gap-1.5">{questions.map((_, number) => (
               <Link to={number.toString()} key={number}><QuestionMark num={number} questNum={questNum} /></Link>
             ))}

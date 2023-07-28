@@ -79,7 +79,7 @@ export function Question(props: QuestionProps) {
             <AnswerForm num={questionNumber} question={props.theme.questions[questionNumber]} onGiveAnswer={props.onGiveAnswer} />          
           </div>
           {qState[questionNumber].isAnswered && <div className="answer flex flex-col bg-fox text-answer px-4 py-2">
-            <Link to={props.theme.questions[questionNumber].link} className="text-primhover hover:underline">{props.theme.questions[questionNumber].linkText}</Link>
+            <Link to={props.theme.questions[questionNumber].link} className="text-primhover hover:underline" target="_blank">{props.theme.questions[questionNumber].linkText}</Link>
             <div className="right-answer mt-4">{props.theme.questions[questionNumber].rightAnswer}</div>
           </div>}
         </div>
