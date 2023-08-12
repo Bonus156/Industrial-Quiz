@@ -11,7 +11,9 @@ module.exports = {
         transparent: 'transparent',
         current: 'currentColor',
         'blue': '#1177d1',
-        'indigo': '#6610f2',
+        'indigo': {
+          650: '#6610f2',
+          },
         'purple': '#613d7c',
         'pink': '#e83e8c',
         'red': {

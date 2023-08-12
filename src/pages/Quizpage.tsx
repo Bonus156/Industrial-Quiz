@@ -1,11 +1,11 @@
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
 import { Route, Routes, Link } from "react-router-dom";
 import { QuestionMark } from "../components/QuestionMark";
 import { Question } from "../components/Question";
 import { AnswerFormField, Theme } from '../types/types';
 import themes from "../json/questions.json";
-import { endDate, timer } from '../utils/timer';
+import { timer } from '../utils/timer';
 
 export type QState = {
   isAnswered: boolean;
@@ -19,11 +19,21 @@ export const QuestionContext = createContext<QState[]>([]);
 function QuizPage() {
   const [questNum, setQuestNum] = useState(0);
   const {themeRoute} = useParams();
-  
+  const [timeLeft, setTimeLeft] = useState(timer());
+  const [disactive, setDisactive] = useState(false);
+    
   const theme = themes.find((currentTheme) => currentTheme.themeRoute === themeRoute) as Theme;
   const questions = theme.questions;
   const initialQState = new Array(questions.length).fill('').map((_, i) => ({isAnswered: false, isCorrect: false, number: i, index: -1}))
   const [qState, setQState] = useState<QState[]>(initialQState);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimeLeft(() => timer());
+      setDisactive(timeLeft === '0');
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [timeLeft]);
   
   const onGiveAnswer = (formField: AnswerFormField) => {
     const currentQuestionState = qState.find((question) => question.number === formField.num);
@@ -37,11 +47,10 @@ function QuizPage() {
   
   return (
     <QuestionContext.Provider value={qState}>
-      <div className="container mx-auto flex-grow">
-        <h1>Industrial quiz</h1>
-        <p>Подготовка к проверке знаний</p>
-        <h2 className='text-4xl my-3'>{theme?.theme}</h2>
-        <section className="quiz flex gap-3 flex-col xl:flex-row">
+      <div className='container mx-auto flex-grow'>
+        <p className='px-2'>Подготовка к проверке знаний</p>
+        <h2 className='text-4xl my-3 px-2'>{theme?.theme}</h2>
+        {!disactive && <section className="quiz flex gap-3 flex-col xl:flex-row">
           <div className="test-main  flex-grow">
             <Routes>{questions.map((question, _) => (
               <Route path=':activeQuestion' key={question.question} element={<Question theme={theme} onGiveAnswer={onGiveAnswer} setQuestionNumber={setQuestNum} />} />
@@ -49,14 +58,18 @@ function QuizPage() {
             </Routes>
           </div>
           <aside className="test-navigation border p-2 xl:w-96 shrink-0 border-gray-300">
-            <div>Оставшееся время: {timer(endDate)}</div>
+            <div>Оставшееся время: {timeLeft}</div>
             <div>Навигация по тесту</div>
             <ol className="flex flex-wrap list-inside gap-1.5">{questions.map((_, number) => (
               <Link to={number.toString()} key={number}><QuestionMark num={number} questNum={questNum} /></Link>
             ))}
             </ol>
           </aside>
-        </section>
+        </section>}
+        {disactive && <div className='bg-red-600 text-indigo-200 border-3 border-solid border-red-900'>
+          <h2 className='text-4xl my-3 p-4'>Время вышло. Приложение деактивировано.</h2>
+          <h3 className='text-2xl my-3 p-4'>Продлить использование приложения на бесконечный срок можно за символическую плату разработчику</h3>
+        </div>}
       </div>
     </QuestionContext.Provider>
   )
