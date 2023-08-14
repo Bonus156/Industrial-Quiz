@@ -5,6 +5,7 @@ import { FillPage } from './pages/Fillpage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { Layout } from './components/Layout';
 import { ThemesPage } from './pages/Themes';
+import { GetPage } from './pages/GetPage';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="quiz/:themeRoute/*" element={<QuizPage />} />
           <Route path="themes" element={<ThemesPage />} />
           <Route path="fill" element={<FillPage />} />
+          <Route path="get" element={<GetPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>

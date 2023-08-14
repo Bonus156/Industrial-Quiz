@@ -10,7 +10,7 @@ const Layout = () => {
             <NavLink to="/">Home</NavLink>
             <NavLink to="/themes">Themes</NavLink>
             <NavLink to="/quiz">Quiz</NavLink>
-            <NavLink to="/fill">Fill</NavLink>
+            <NavLink to="/get">Get</NavLink>
           </div>
         </div>
       </header>

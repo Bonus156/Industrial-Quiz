@@ -49,7 +49,7 @@ function QuizPage() {
     <QuestionContext.Provider value={qState}>
       <div className='container mx-auto flex-grow'>
         <p className='px-2'>Подготовка к проверке знаний</p>
-        <h2 className='text-4xl my-3 px-2'>{theme?.theme}</h2>
+        <h2 className='lg:text-4xl sm:text-3xl my-3 px-2 text-2xl'>{theme?.theme}</h2>
         {!disactive && <section className="quiz flex gap-3 flex-col xl:flex-row">
           <div className="test-main  flex-grow">
             <Routes>{questions.map((question, _) => (
@@ -58,8 +58,8 @@ function QuizPage() {
             </Routes>
           </div>
           <aside className="test-navigation border p-2 xl:w-96 shrink-0 border-gray-300">
-            <div>Оставшееся время: {timeLeft}</div>
-            <div>Навигация по тесту</div>
+            <div>Оставшееся время: <span className='font-bold'>{timeLeft}</span></div>
+            <div className='md:mt-5 mb-2 font-thin text-lg'>Навигация по тесту</div>
             <ol className="flex flex-wrap list-inside gap-1.5">{questions.map((_, number) => (
               <Link to={number.toString()} key={number}><QuestionMark num={number} questNum={questNum} /></Link>
             ))}
