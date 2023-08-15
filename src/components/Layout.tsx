@@ -6,7 +6,7 @@ const Layout = () => {
       <header className="bg-gray-100">
         <div className="container flex mx-auto my-2">
           <h1>Industrial Quiz</h1>
-          <div className="nav mx-auto">
+          <div className="nav mx-auto flex gap-2">
             <NavLink to="/">Home</NavLink>
             <NavLink to="/themes">Themes</NavLink>
             <NavLink to="/quiz">Quiz</NavLink>
