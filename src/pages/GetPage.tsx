@@ -4,6 +4,7 @@ export function GetPage() {
   const clearStorage = useRef<HTMLTextAreaElement>(null);
   const scriptTextArea = useRef<HTMLTextAreaElement>(null);
   const storageToClipboard = useRef<HTMLTextAreaElement>(null);
+  const jsonArea = useRef<HTMLTextAreaElement>(null);
   const themeTitleInput = useRef<HTMLInputElement>(null);
   const themeRouteInput = useRef<HTMLInputElement>(null);
   const [themeTitle, setThemeTitle] = useState('');
@@ -24,9 +25,21 @@ export function GetPage() {
     }, 1000);
   };
 
-  const setTheme = () => {
-
+  const setTheme = async () => {
     setIsEmptyField(!themeTitle || !themeRoute);
+    if (!isEmptyField) {
+      const clipbordText: string = await navigator.clipboard.readText();
+      try {
+        const jsonText = JSON.stringify({theme: themeTitle,
+        themeRoute: themeRoute,
+        questions: JSON.parse(clipbordText)}, null, 2);
+        if (jsonArea.current) {
+          jsonArea.current.value = jsonText;
+        }
+      } catch(error) {
+        console.log('something get wrong: ', error);
+      }
+    }
   }
 
   return (
@@ -83,24 +96,42 @@ export function GetPage() {
         </button>
       </div>
       <div className="flex flex-row items-start">
-        <div className="inputs-block w-full mr-4">
+        <div className="inputs-block w-full max-w-5xl">
           <div className="theme-title">
             <label htmlFor="titleinput">Название&nbsp;темы</label>
             <input type="text" id="titleinput" className="border mb-4 w-full" onChange={e => setThemeTitle(e.target.value)} value={themeTitle} ref={themeTitleInput} />
           </div>
-          <div className="theme-route">
+          <div className="theme-route ">
             <label htmlFor="themeroute">Theme&nbsp;route</label>
             <input type="text" id="themeroute" className="border w-full" onChange={e => setThemeRoute(e.target.value)} value={themeRoute} ref={themeRouteInput} />
           </div>
           {isEmptyField && <span className="text-red-550 font-semibold">Заполните поля "Название темы" и "Theme route"</span>}
         </div>
+      </div>
+      <button
+        className={`cursor-pointer border font-semibold rounded px-4 py-2 w-24 h-fit bg-green-400 hover:bg-green-500 ${isEmptyField ? 'mt-4' : 'mt-10'}`}
+        onClick={setTheme}
+      >
+        Set
+      </button>
+      <div className="flex flex-row items-center">
+        <textarea
+          ref={jsonArea}
+          className="my-4 mr-2 px-2 border"
+          readOnly
+          cols={120}
+          rows={5}
+          defaultValue={``}
+        ></textarea>
+
         <button
-          className="cursor-pointer border font-semibold rounded px-4 py-2 mt-6 w-24 h-fit bg-green-400 hover:bg-green-500"
-          onClick={setTheme}
+          className="cursor-pointer border font-semibold rounded px-4 py-2 w-24 h-fit bg-green-400 hover:bg-green-500"
+          onClick={(e) => copyToClipboard(e, jsonArea)}
         >
-          Set
+          Copy
         </button>
       </div>
+
     </div>
   );
 }
