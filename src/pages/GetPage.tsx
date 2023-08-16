@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { Link } from "react-router-dom";
 
 export function GetPage() {
   const clearStorage = useRef<HTMLTextAreaElement>(null);
@@ -18,7 +19,7 @@ export function GetPage() {
     if (ref.current) {
       navigator.clipboard.writeText(ref.current.value);
     }
-    const button: HTMLButtonElement = e.target;
+    const button: HTMLButtonElement = e.target as HTMLButtonElement;
     button.innerText = "Copied!";
     setTimeout(() => {
       button.innerText = "Copy";
@@ -26,7 +27,7 @@ export function GetPage() {
   };
 
   const setTheme = async () => {
-    setIsEmptyField(!themeTitle || !themeRoute);
+    setIsEmptyField(!themeTitle || !themeRoute); // этот useState можно убрать
     if (!isEmptyField) {
       const clipbordText: string = await navigator.clipboard.readText();
       try {
@@ -37,13 +38,20 @@ export function GetPage() {
           jsonArea.current.value = jsonText;
         }
       } catch(error) {
-        console.log('something get wrong: ', error);
+        console.log('something get wrong.\n', error); // переписать эту обработку ошибок
+        if (jsonArea.current) {
+          jsonArea.current.value = 'Что-то пошло не так';
+        }
       }
     }
   }
 
   return (
     <div className="get-page container mx-auto flex-grow">
+      <p className="rules">Текущая версия программы не поддерживает добавление тестов с картинками в тексте вопроса. Поддержка таких вопросов будет добавлена позднее.</p>
+      <p className="rules">Список доступных тем можно (и нужно) дополнять. Их можно добавлять (на бесконечное количество попыток и бесконечный срок) после прохождения теста на <a href="https://test.ucp.by/">сайте Госпромнадзора "https://test.ucp.by/"</a>. Для добавления новых тестов в перечень доступных тем для подготовки к проверке знаний необходимо выполнить следующие действия.</p>
+      <p className="rules">1. Пройти тест <a href="https://test.ucp.by/">сайте Госпромнадзора "https://test.ucp.by/"</a> из числа тех, которых еще нет в <Link className="underline hover:no-underline" to={'/themes'}>списке доступных тем</Link>.</p>
+      <p className="rules">2. Открыть пройденный тест в браузере Google Chrome или Mozilla Firefox. Для этого необходимо скопировать адрес из адресной строки открытого окна теста в адресную строку браузера. Затем кликнуть правой кнопкой мыши в любом месте открытой страницы. Появится контекстное меню. В контекстном меню выбрать пункт (в зависимости от браузера) "Исследовать" или "Посмотреть код" или "Просмотр HTML-кода" или "Inspect" или т.п.</p>
       <div className="flex flex-row items-center">
         <textarea
           ref={clearStorage}
@@ -109,8 +117,9 @@ export function GetPage() {
         </div>
       </div>
       <button
-        className={`cursor-pointer border font-semibold rounded px-4 py-2 w-24 h-fit bg-green-400 hover:bg-green-500 ${isEmptyField ? 'mt-4' : 'mt-10'}`}
+        className={`cursor-pointer border font-semibold rounded px-4 py-2 w-24 h-fit bg-green-400 hover:bg-green-500 disabled:cursor-default disabled:text-white disabled:bg-green-300 ${isEmptyField ? 'mt-4' : 'mt-10'}`}
         onClick={setTheme}
+        disabled={!themeTitle || !themeRoute}
       >
         Set
       </button>
@@ -131,7 +140,6 @@ export function GetPage() {
           Copy
         </button>
       </div>
-
     </div>
   );
 }
