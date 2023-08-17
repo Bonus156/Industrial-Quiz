@@ -10,7 +10,6 @@ export function GetPage() {
   const themeRouteInput = useRef<HTMLInputElement>(null);
   const [themeTitle, setThemeTitle] = useState('');
   const [themeRoute, setThemeRoute] = useState('');
-  const [isEmptyField, setIsEmptyField] = useState(false);
 
   const copyToClipboard = (
     e: React.MouseEvent<HTMLButtonElement>,
@@ -27,8 +26,7 @@ export function GetPage() {
   };
 
   const setTheme = async () => {
-    setIsEmptyField(!themeTitle || !themeRoute); // этот useState можно убрать
-    if (!isEmptyField) {
+    if (!themeTitle || !themeRoute) {
       const clipbordText: string = await navigator.clipboard.readText();
       try {
         const jsonText = JSON.stringify({theme: themeTitle,
@@ -46,12 +44,15 @@ export function GetPage() {
     }
   }
 
+  const isBtnDisabled: boolean = !themeTitle || !themeRoute || themeRoute.includes(' ') || themeTitle.length < 5 || themeRoute.length < 3;
+
   return (
     <div className="get-page container mx-auto flex-grow">
       <p className="rules">Текущая версия программы не поддерживает добавление тестов с картинками в тексте вопроса. Поддержка таких вопросов будет добавлена позднее.</p>
       <p className="rules">Список доступных тем можно (и нужно) дополнять. Их можно добавлять (на бесконечное количество попыток и бесконечный срок) после прохождения теста на <a href="https://test.ucp.by/">сайте Госпромнадзора "https://test.ucp.by/"</a>. Для добавления новых тестов в перечень доступных тем для подготовки к проверке знаний необходимо выполнить следующие действия.</p>
       <p className="rules">1. Пройти тест <a href="https://test.ucp.by/">сайте Госпромнадзора "https://test.ucp.by/"</a> из числа тех, которых еще нет в <Link className="underline hover:no-underline" to={'/themes'}>списке доступных тем</Link>.</p>
-      <p className="rules">2. Открыть пройденный тест в браузере Google Chrome или Mozilla Firefox. Для этого необходимо скопировать адрес из адресной строки открытого окна теста в адресную строку браузера. Затем кликнуть правой кнопкой мыши в любом месте открытой страницы. Появится контекстное меню. В контекстном меню выбрать пункт (в зависимости от браузера) "Исследовать" или "Посмотреть код" или "Просмотр HTML-кода" или "Inspect" или т.п.</p>
+      <p className="rules">2. Открыть пройденный тест в браузере Google Chrome или Mozilla Firefox. Для этого необходимо скопировать адрес из адресной строки открытого окна теста в адресную строку браузера. Затем кликнуть правой кнопкой мыши в любом месте открытой страницы. Появится контекстное меню. В контекстном меню выбрать пункт (в зависимости от браузера) "Исследовать" или "Посмотреть код" или "Просмотр HTML-кода" или "Inspect" или т.п. Откроется панель разработчика. В панели разработчика открыть вкладку "Консоль" ("Console").</p>
+      <p className="rules">3. Очистить локальное хранилище данных браузера. Для этого вставить в открытую консоль браузера на странице с пройденным тестом текст из следующего текстового поля и нажать Ввод (Enter).</p>
       <div className="flex flex-row items-center">
         <textarea
           ref={clearStorage}
@@ -69,6 +70,7 @@ export function GetPage() {
           Copy
         </button>
       </div>
+      <p className="rules">4. Скопировать (Ctrl + C или Ctrl + Insert или нажать кнопку Copy рядом с полем) текст из следующего текстового поля и вставить (Ctrl + V или Shift + Insert) в открытую консоль браузера на странице первого вопроса и нажать Ввод (Enter). Затем перейти к следующему вопросу и снова вставить в консоль браузера скопированный текст. (Повторно копировать текст не нужно.) Нажать Enter. Проделать эти действия по одному разу на странице каждого вопроса (вставить скопированный текст в консоль: Ctrl + V, нажать Enter). Это самая трудоёмкая часть. Дальше проще.</p>
       <div className="flex flex-row items-center">
         <textarea
           ref={scriptTextArea}
@@ -86,6 +88,7 @@ export function GetPage() {
           Copy
         </button>
       </div>
+      <p className="rules">5. После того, как предыдущая операция будет проделана на странице каждого вопроса теста, скопировать (Ctrl + C или Ctrl + Insert или нажать кнопку Copy рядом с полем) содержимое следующего текстового поля, вставить (Ctrl + V или Shift + Insert) один раз в открытую консоль браузера на странице любого одного вопроса теста и нажать Ввод (Enter).</p>
       <div className="flex flex-row items-center">
         <textarea
           ref={storageToClipboard}
@@ -103,23 +106,28 @@ export function GetPage() {
           Copy
         </button>
       </div>
+      <p className="rules">6. В следующее текстовое поле "Название темы" нужно вписать название темы пройденного теста. Скорее всего программа Госпромнадзора скопировать название темы из браузера не позволит, поэтому её нужно набрать с клавиатуры.</p>
+      <p className="rules">7. В текстовое поле "Theme route" нужно вписать сокращенное название темы на английском языке латиницей строчными буквами в одно слово без пробелов. Например для темы "Лица, ответственные за безопасную эксплуатацию технологических трубопроводов" в графу Theme route можно вписать "techpipelines" и т.п.</p>
       <div className="flex flex-row items-start">
-        <div className="inputs-block w-full max-w-5xl">
+        <div className="inputs-block w-full max-w-5xl mb-2">
           <div className="theme-title">
-            <label htmlFor="titleinput">Название&nbsp;темы</label>
-            <input type="text" id="titleinput" className="border mb-4 w-full" onChange={e => setThemeTitle(e.target.value)} value={themeTitle} ref={themeTitleInput} />
+            <label htmlFor="titleinput">Название&nbsp;темы
+              <input type="text" id="titleinput" className="border mb-4 w-full" onChange={e => setThemeTitle(e.target.value)} value={themeTitle} ref={themeTitleInput} />
+            </label>
           </div>
           <div className="theme-route ">
-            <label htmlFor="themeroute">Theme&nbsp;route</label>
-            <input type="text" id="themeroute" className="border w-full" onChange={e => setThemeRoute(e.target.value)} value={themeRoute} ref={themeRouteInput} />
+            <label htmlFor="themeroute">Theme&nbsp;route
+              <input type="text" id="themeroute" className="border w-full" onChange={e => setThemeRoute(e.target.value)} value={themeRoute} ref={themeRouteInput} />
+            </label>
           </div>
-          {isEmptyField && <span className="text-red-550 font-semibold">Заполните поля "Название темы" и "Theme route"</span>}
         </div>
       </div>
+      <p className="rules">8. Нажмите на кнопку Set. Если все предыдущие пункты выполнены верно, в текстовом поле ниже появится много строк текста в формате JSON. Скопируйте его нажатием на кнопку Copy рядом с полем и добавьте в массив с темами в файле questions.json или сохраните в файле новаяТема.txt и отправьте файл разработчику.</p>
       <button
-        className={`cursor-pointer border font-semibold rounded px-4 py-2 w-24 h-fit bg-green-400 hover:bg-green-500 disabled:cursor-default disabled:text-white disabled:bg-green-300 ${isEmptyField ? 'mt-4' : 'mt-10'}`}
+        className={`cursor-pointer border font-semibold rounded px-4 py-2 w-24 h-fit bg-green-400 hover:bg-green-500 disabled:cursor-default disabled:text-white disabled:bg-green-300 mt-4`}
         onClick={setTheme}
-        disabled={!themeTitle || !themeRoute}
+        // disabled={!themeTitle || !themeRoute || themeRoute.includes(' ') || themeTitle.length < 5 || themeRoute.length < 3}
+        disabled={isBtnDisabled}
       >
         Set
       </button>
