@@ -26,20 +26,18 @@ export function GetPage() {
   };
 
   const setTheme = async () => {
-    if (!themeTitle || !themeRoute) {
-      const clipbordText: string = await navigator.clipboard.readText();
-      try {
-        const jsonText = JSON.stringify({theme: themeTitle,
-        themeRoute: themeRoute,
-        questions: JSON.parse(clipbordText)}, null, 2);
-        if (jsonArea.current) {
-          jsonArea.current.value = jsonText;
-        }
-      } catch(error) {
-        console.log('something get wrong.\n', error); // переписать эту обработку ошибок
-        if (jsonArea.current) {
-          jsonArea.current.value = 'Что-то пошло не так';
-        }
+    const clipbordText: string = await navigator.clipboard.readText();
+    try {
+      const jsonText = JSON.stringify({theme: themeTitle,
+      themeRoute: themeRoute,
+      questions: JSON.parse(clipbordText)}, null, 2);
+      if (jsonArea.current) {
+        jsonArea.current.value = jsonText;
+      }
+    } catch(error) {
+      console.log('something get wrong.\n', error); // переписать эту обработку ошибок
+      if (jsonArea.current) {
+        jsonArea.current.value = 'Что-то пошло не так';
       }
     }
   }
@@ -70,7 +68,7 @@ export function GetPage() {
           Copy
         </button>
       </div>
-      <p className="rules">4. Скопировать (Ctrl + C или Ctrl + Insert или нажать кнопку Copy рядом с полем) текст из следующего текстового поля и вставить (Ctrl + V или Shift + Insert) в открытую консоль браузера на странице первого вопроса и нажать Ввод (Enter). Затем перейти к следующему вопросу и снова вставить в консоль браузера скопированный текст. (Повторно копировать текст не нужно.) Нажать Enter. Проделать эти действия по одному разу на странице каждого вопроса (вставить скопированный текст в консоль: Ctrl + V, нажать Enter). Это самая трудоёмкая часть. Дальше проще.</p>
+      <p className="rules">4. Скопировать (нажать кнопку "Copy" рядом с полем) текст из следующего текстового поля и вставить (Ctrl + V или Shift + Insert) в открытую консоль браузера на странице первого вопроса и нажать Ввод (Enter). Затем перейти к следующему вопросу и снова вставить в консоль браузера скопированный текст. (Повторно копировать текст не нужно.) Нажать Enter. Проделать эти действия по одному разу на странице каждого вопроса (вставить скопированный текст в консоль: Ctrl + V, нажать Enter). Это самая трудоёмкая часть. Дальше проще.</p>
       <div className="flex flex-row items-center">
         <textarea
           ref={scriptTextArea}
@@ -88,7 +86,7 @@ export function GetPage() {
           Copy
         </button>
       </div>
-      <p className="rules">5. После того, как предыдущая операция будет проделана на странице каждого вопроса теста, скопировать (Ctrl + C или Ctrl + Insert или нажать кнопку Copy рядом с полем) содержимое следующего текстового поля, вставить (Ctrl + V или Shift + Insert) один раз в открытую консоль браузера на странице любого одного вопроса теста и нажать Ввод (Enter).</p>
+      <p className="rules">5. После того, как предыдущая операция будет проделана на странице каждого вопроса теста, скопировать (нажать кнопку "Copy" рядом с полем) содержимое следующего текстового поля, вставить (Ctrl + V или Shift + Insert) один раз в открытую консоль браузера на странице любого одного вопроса теста и нажать Ввод (Enter).</p>
       <div className="flex flex-row items-center">
         <textarea
           ref={storageToClipboard}
@@ -122,7 +120,7 @@ export function GetPage() {
           </div>
         </div>
       </div>
-      <p className="rules">8. Нажмите на кнопку Set. Если все предыдущие пункты выполнены верно, в текстовом поле ниже появится много строк текста в формате JSON. Скопируйте его нажатием на кнопку Copy рядом с полем и добавьте в массив с темами в файле questions.json или сохраните в файле новаяТема.txt и отправьте файл разработчику.</p>
+      <p className="rules">8. Нажмите на кнопку Set. Если все предыдущие пункты выполнены верно, в текстовом поле ниже появится много строк текста в формате JSON. Скопируйте его нажатием на кнопку "Copy" рядом с полем и добавьте в массив с темами в файле questions.json или сохраните в файле новаяТема.txt и отправьте файл разработчику.</p>
       <button
         className={`cursor-pointer border font-semibold rounded px-4 py-2 w-24 h-fit bg-green-400 hover:bg-green-500 disabled:cursor-default disabled:text-white disabled:bg-green-300 mt-4`}
         onClick={setTheme}
