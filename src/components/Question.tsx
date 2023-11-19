@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { QuestionType, Theme } from "../types/types";
 import { QState, QuestionContext } from "../pages/QuizPage";
 import { AnswerFormField } from "../types/types";
@@ -23,11 +23,14 @@ type AnsFormFields = {
 
 function AnswerForm(props: AnswerFormProps) {
   const qState: QState[] = useContext(QuestionContext);
+  const [isCheckedAnswer, setIsCheckedAnswer] = useState<boolean>(false)
   
   const handleSubmit: React.FormEventHandler<HTMLFormElement & AnsFormFields> = (event) => {
     event.preventDefault();
     const form = event.currentTarget;
     const { answer } = form;
+    console.log('answer.value', answer.value)
+    console.log('answer', answer)
     props.onGiveAnswer({
       answer: answer.value,
       num: props.num,
@@ -36,21 +39,42 @@ function AnswerForm(props: AnswerFormProps) {
       indexAnswer: Array.from(answer).findIndex((input) => (input as HTMLInputElement).checked === true),
     });
     qState[props.num].isAnswered = true;
+    setIsCheckedAnswer(false)
   }
 
+  const onCheck = () => {
+    setIsCheckedAnswer(true)
+  }
+
+  useEffect(() => {
+    setIsCheckedAnswer(false)
+  }, [props.num])
+
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} >
       {props.question.answers.map((currAnswer, index) => (
         <div className="answer_variant flex w-full justify-between px-2 my-2" key={currAnswer}>
-          <label className="flex items-start" htmlFor={`variant-${props.num}_${index}`}>
-            <input type="radio" className="variant-radio mr-1.5 mt-1.5" name="answer" id={`variant-${props.num}_${index}`} value={currAnswer} disabled={qState[props.num].isAnswered} defaultChecked={qState[props.num].index === index} />
+          <label className="flex items-start" htmlFor={`variant-${props.num}_${index}`} onClick={onCheck}>
+            <input 
+              type="radio"
+              className="variant-radio mr-1.5 mt-1.5"
+              name="answer"
+              id={`variant-${props.num}_${index}`}
+              value={currAnswer}
+              disabled={qState[props.num].isAnswered}
+              defaultChecked={qState[props.num].index === index}
+            />
             <span className="letter mr-1">{String.fromCharCode(97 + index)}. </span>
             <span className="variant-text" id={`variant-answer-${index}`}>{currAnswer}</span>
           </label>
           <div className="mark relative m-1.5"><AnswerMark num={props.num} index={index} /></div>
         </div>
       ))}
-      {!qState[props.num].isAnswered && <input type="submit" className="border cursor-pointer bg-secondary p-2 my-2 hover:bg-sechover text-prev" value="Ответить" disabled={qState[props.num].isAnswered} />}
+      {!qState[props.num].isAnswered && isCheckedAnswer &&
+        <input type="submit"
+          className="border cursor-pointer bg-secondary p-2 my-2 hover:bg-sechover text-prev"
+          value="Ответить"
+          disabled={qState[props.num].isAnswered} />}
     </form>
   )
 }
