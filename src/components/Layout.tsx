@@ -9,8 +9,7 @@ const Layout = () => {
           <div className="nav mx-auto flex gap-2">
             <NavLink to="/">Home</NavLink>
             <NavLink to="/themes">Themes</NavLink>
-            <NavLink to="/quiz">Quiz</NavLink>
-            <NavLink to="/get">Get</NavLink>
+            {/* <NavLink to="/get">Get</NavLink> */}
           </div>
         </div>
       </header>
