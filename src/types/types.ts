@@ -12,6 +12,7 @@ export type QuestionType = {
   rightAnswer: string;
   link: string;
   linkText: string;
+  imageLink?: string;
 }
 
 export type Theme = {
