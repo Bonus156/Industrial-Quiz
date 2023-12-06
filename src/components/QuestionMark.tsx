@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { QState, QuestionContext } from '../pages/QuizPage';
+import { QState, QuestionContext } from '../pages/QuizPpage';
 
 type QMProps = {
   num: number;

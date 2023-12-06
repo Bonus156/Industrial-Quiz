@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { QuestionType, Theme } from "../types/types";
-import { QState, QuestionContext } from "../pages/QuizPage";
+import { QState, QuestionContext } from "../pages/QuizPpage";
 import { AnswerFormField } from "../types/types";
 import { AnswerMark } from "./QuestionMark";
 import { Link, useParams } from "react-router-dom";
