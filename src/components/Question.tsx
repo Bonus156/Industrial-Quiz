@@ -100,8 +100,8 @@ export function Question(props: QuestionProps) {
         <div className="question-answer flex flex-col gap-5 flex-grow">
           <div className="flex flex-col bg-welcome text-ask px-4 py-2">
             <div>
-              {props.theme.questions[questionNumber].question}
               {props.theme.questions[questionNumber].imageLink && <img src={props.theme.questions[questionNumber].imageLink} alt="sign" />}
+              {props.theme.questions[questionNumber].question}
             </div>
             <AnswerForm num={questionNumber} question={props.theme.questions[questionNumber]} onGiveAnswer={props.onGiveAnswer} />          
           </div>
