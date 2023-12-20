@@ -68,7 +68,6 @@ function QuizPage() {
         </section>}
         {disactive && <div className='bg-red-600 text-indigo-200 border-3 border-solid border-red-900'>
           <h2 className='text-4xl my-3 p-4'>Время вышло. Приложение деактивировано.</h2>
-          <h3 className='text-2xl my-3 p-4'>Продлить использование приложения на бесконечный срок можно за символическую плату разработчику</h3>
         </div>}
       </div>
     </QuestionContext.Provider>
