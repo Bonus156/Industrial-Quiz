@@ -1,3 +1,5 @@
+import { QState } from "../pages/QuizPage";
+
 export type AnswerFormField = {
   answer: string;
   num: number;
@@ -19,4 +21,9 @@ export type Theme = {
   theme: string;
   themeRoute: string;
   questions: QuestionType[];
+}
+
+export interface Save {
+  theme: string;
+  state: QState[];
 }

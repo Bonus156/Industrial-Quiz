@@ -11,6 +11,7 @@ module.exports = {
         transparent: 'transparent',
         current: 'currentColor',
         'blue': '#1177d1',
+        'linkhover': '#0b4f8a',
         'indigo': {
           650: '#6610f2',
           },

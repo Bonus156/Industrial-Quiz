@@ -46,9 +46,8 @@ export function GetPage() {
 
   return (
     <div className="get-page container mx-auto flex-grow">
-      <p className="rules">Текущая версия программы не поддерживает добавление тестов с картинками в тексте вопроса. Поддержка таких вопросов будет добавлена позднее.</p>
       <p className="rules">Список доступных тем можно (и нужно) дополнять. Их можно добавлять (на бесконечное количество попыток и бесконечный срок) после прохождения теста на <a href="https://test.ucp.by/">сайте Госпромнадзора "https://test.ucp.by/"</a>. Для добавления новых тестов в перечень доступных тем для подготовки к проверке знаний необходимо выполнить следующие действия.</p>
-      <p className="rules">1. Пройти тест <a href="https://test.ucp.by/">сайте Госпромнадзора "https://test.ucp.by/"</a> из числа тех, которых еще нет в <Link className="underline hover:no-underline" to={'/themes'}>списке доступных тем</Link>.</p>
+      <p className="rules">1. Пройти тест на <a href="https://test.ucp.by/">сайте Госпромнадзора "https://test.ucp.by/"</a> из числа тех, которых еще нет в <Link className="underline hover:no-underline" to={'/themes'}>списке доступных тем</Link>.</p>
       <p className="rules">2. Открыть пройденный тест в браузере Google Chrome или Mozilla Firefox. Для этого необходимо скопировать адрес из адресной строки открытого окна теста в адресную строку браузера. Затем кликнуть правой кнопкой мыши в любом месте открытой страницы. Появится контекстное меню. В контекстном меню выбрать пункт (в зависимости от браузера) "Исследовать" или "Посмотреть код" или "Просмотр HTML-кода" или "Inspect" или т.п. Откроется панель разработчика. В панели разработчика открыть вкладку "Консоль" ("Console").</p>
       <p className="rules">3. Очистить локальное хранилище данных браузера. Для этого вставить в открытую консоль браузера на странице с пройденным тестом текст из следующего текстового поля и нажать Ввод (Enter).</p>
       <div className="flex flex-row items-center">
@@ -76,7 +75,7 @@ export function GetPage() {
           readOnly
           cols={120}
           rows={5}
-          defaultValue={`localStorage.setItem('questions', JSON.stringify([...JSON.parse(localStorage.getItem('questions') ?? "[]"), {question: document.querySelector('.qtext').textContent, answers: Array.from(document.querySelectorAll('.answernumber')).map(a => a.nextSibling.textContent), rightAnswer: document.querySelector('.rightanswer').textContent, link: document.querySelector('.generalfeedback').firstElementChild.href, linkText: document.querySelector('.generalfeedback').textContent }], null, 2));`}
+          defaultValue={`localStorage.setItem('questions', JSON.stringify([...JSON.parse(localStorage.getItem('questions') ?? "[]"), document.querySelector('.qtext').querySelector('img')?.src ? {question: document.querySelector('.qtext').textContent, answers: Array.from(document.querySelectorAll('.answernumber')).map(a => a.nextSibling.textContent), rightAnswer: document.querySelector('.rightanswer').textContent, link: document.querySelector('.generalfeedback').firstElementChild.href, linkText: document.querySelector('.generalfeedback').textContent, imageLink: '/assets/images' + decodeURIComponent(document.querySelector('.qtext').querySelector('img')?.src).slice(decodeURIComponent(document.querySelector('.qtext').querySelector('img')?.src).lastIndexOf('/')) } : {question: document.querySelector('.qtext').textContent, answers: Array.from(document.querySelectorAll('.answernumber')).map(a => a.nextSibling.textContent), rightAnswer: document.querySelector('.rightanswer').textContent, link: document.querySelector('.generalfeedback').firstElementChild.href, linkText: document.querySelector('.generalfeedback').textContent }], null, 2));`}
         ></textarea>
 
         <button

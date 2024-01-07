@@ -6,6 +6,7 @@ import { Question } from "../components/Question";
 import { AnswerFormField, Theme } from '../types/types';
 import themes from "../json/questions.json";
 import { timer } from '../utils/timer';
+import { Modal } from '../components/Modal';
 
 export type QState = {
   isAnswered: boolean;
@@ -34,6 +35,26 @@ function QuizPage() {
     }, 1000);
     return () => clearInterval(interval);
   }, [timeLeft]);
+
+  const saveToLS = () => {
+    localStorage.setItem('currentThemeState', JSON.stringify({theme: theme.themeRoute, qState}))
+  }
+
+  useEffect(() => {
+    if (localStorage.getItem('currentThemeState') && JSON.parse(localStorage.getItem('currentThemeState') ?? '{}').theme === theme.themeRoute) {
+      const savedState: QState[] = JSON.parse(localStorage.getItem('currentThemeState') ?? '{}').qState;
+      const isSavedExam = confirm('У Вас есть незавершённый тест по этой теме. Продолжить предыдущую попытку?');
+      if (isSavedExam) {
+        setQState(savedState);
+        let unansweredQuestionNumber = savedState.find(state => !state.isAnswered)?.number;
+        if (window.location.pathname.slice(window.location.pathname.lastIndexOf('/') + 1) !== unansweredQuestionNumber?.toString()) {
+          console.log('window.location.pathname', window.location.pathname.slice(window.location.pathname.lastIndexOf('/') + 1));
+          // window.location.pathname = window.location.pathname.slice(0, window.location.pathname.lastIndexOf('/') + 1) + unansweredQuestionNumber;
+          // setQuestNum(unansweredQuestionNumber ?? 0)
+        }
+      }
+    }
+  },[])
   
   const onGiveAnswer = (formField: AnswerFormField) => {
     const currentQuestionState = qState.find((question) => question.number === formField.num);
@@ -43,16 +64,18 @@ function QuizPage() {
       currentQuestionState.index = formField.indexAnswer;
     }
     setQState([...qState]);
+    saveToLS();
   }
   
   return (
     <QuestionContext.Provider value={qState}>
+      <Modal />
       <div className='container mx-auto flex-grow'>
         <p className='px-2'>Подготовка к проверке знаний</p>
         <h2 className='lg:text-4xl sm:text-3xl my-3 px-2 text-2xl'>{theme?.theme}</h2>
         {!disactive && <section className="quiz flex gap-3 flex-col xl:flex-row">
-          <div className="test-main  flex-grow">
-            <Routes>{questions.map((question, _) => (
+          <div className="test-main flex-grow">
+            <Routes>{questions.map((question) => (
               <Route path=':activeQuestion' key={question.question} element={<Question theme={theme} onGiveAnswer={onGiveAnswer} setQuestionNumber={setQuestNum} />} />
               ))}
             </Routes>
@@ -74,4 +97,4 @@ function QuizPage() {
   )
 }
 
-export {QuizPage}
+export { QuizPage }

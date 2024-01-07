@@ -1,7 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import { HomePage } from './pages/HomePage';
 import { QuizPage } from './pages/QuizPage';
-import { FillPage } from './pages/Fillpage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { Layout } from './components/Layout';
 import { ThemesPage } from './pages/Themes';
@@ -15,7 +14,6 @@ function App() {
           <Route index element={<HomePage />} />
           <Route path="quiz/:themeRoute/*" element={<QuizPage />} />
           <Route path="themes" element={<ThemesPage />} />
-          <Route path="fill" element={<FillPage />} />
           <Route path="get" element={<GetPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
