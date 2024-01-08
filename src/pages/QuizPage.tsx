@@ -84,7 +84,9 @@ function QuizPage() {
             <div>Оставшееся время: <span className='font-bold'>{timeLeft}</span></div>
             <div className='md:mt-5 mb-2 font-thin text-lg'>Навигация по тесту</div>
             <ol className="flex flex-wrap list-inside gap-1.5">{questions.map((_, number) => (
-              <Link to={number.toString()} key={number}><QuestionMark num={number} questNum={questNum} /></Link>
+              <Link to={number.toString()} key={number} title={qState[number].isAnswered ? qState[number].isCorrect ? 'Верно' : 'Неверно' : 'Не завершено'}>
+                <QuestionMark num={number} questNum={questNum} />
+              </Link>
             ))}
             </ol>
           </aside>
