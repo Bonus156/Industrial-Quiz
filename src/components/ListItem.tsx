@@ -19,7 +19,7 @@ function ListItem(props: ListItemProps) {
   },[])
 
   return (
-    <li className="list-decimal list-inside p-3 even:bg-gray-100" key={props.theme.themeRoute}>
+    <li className="list-decimal list-inside p-3 even:bg-gray-100">
       <Link to={`/quiz/${props.theme.themeRoute}/${startQuestionIndex}`} className="text-primhover hover:underline">{props.theme.theme} | <span className="text-red-550">вопросов: {props.theme.questions.length}</span></Link>
     </li>
   )
