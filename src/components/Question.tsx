@@ -29,8 +29,6 @@ function AnswerForm(props: AnswerFormProps) {
     event.preventDefault();
     const form = event.currentTarget;
     const { answer } = form;
-    console.log('answer.value', answer.value)
-    console.log('answer', answer)
     props.onGiveAnswer({
       answer: answer.value,
       num: props.num,
@@ -44,6 +42,11 @@ function AnswerForm(props: AnswerFormProps) {
 
   const onCheck = () => {
     setIsCheckedAnswer(true)
+  }
+
+  const cancelChoice = () => {
+    setIsCheckedAnswer(false);
+    (document.querySelector('input[type="radio"]:checked') as HTMLInputElement).checked = false;
   }
 
   useEffect(() => {
@@ -71,6 +74,8 @@ function AnswerForm(props: AnswerFormProps) {
         </div>
       ))}
       {!qState[props.num].isAnswered && isCheckedAnswer &&
+        <div className="cursor-pointer text-blue hover:text-linkhover hover:underline" onClick={cancelChoice}>Очистить мой выбор</div>}
+      {!qState[props.num].isAnswered && isCheckedAnswer &&
         <input type="submit"
           className="border cursor-pointer bg-secondary p-2 my-2 hover:bg-sechover text-prev"
           value="Ответить"
@@ -94,7 +99,7 @@ export function Question(props: QuestionProps) {
         <div className="quest-num sm:w-28 w-full shrink-0">
           <div className="flex flex-col p-2 bg-gray-350 h-16">
             <span className="text-sm">Вопрос <span className="text-base font-bold">{questionNumber + 1}</span></span>
-            {qState[questionNumber].isAnswered && <span className="text-sm">{qState[questionNumber].isCorrect ? 'Верно' : 'Неверно'}</span>}
+            <span className="text-sm">{qState[questionNumber].isAnswered ? qState[questionNumber].isCorrect ? 'Верно' : 'Неверно' : 'Не завершено'}</span>
           </div>
         </div>
         <div className="question-answer flex flex-col gap-5 flex-grow">
@@ -111,8 +116,8 @@ export function Question(props: QuestionProps) {
           </div>}
         </div>
       </div>
-      <div className="navigate-buttons flex w-full justify-between mt-10">
-        <Link to={`/quiz/${props.theme.themeRoute}/${questionNumber - 1}`} className={`bg-secondary p-2 mr-3 hover:bg-sechover text-prev ${questionNumber === 0 ? 'pointer-events-none' : 'pointer-events-auto'}`}>Предыдущий вопрос</Link>
+      <div className={`navigate-buttons flex w-full mt-10 ${!questionNumber ? 'justify-end' : 'justify-between'}`}>
+        {!!questionNumber && <Link to={`/quiz/${props.theme.themeRoute}/${questionNumber - 1}`} className={`bg-secondary p-2 mr-3 hover:bg-sechover text-prev ${questionNumber === 0 ? 'pointer-events-none' : 'pointer-events-auto'}`}>Предыдущий вопрос</Link>}
         <Link to={`/quiz/${props.theme.themeRoute}/${questionNumber + 1}`} className={`bg-primary p-2 hover:bg-primhover text-white ${questionNumber === props.theme.questions.length - 1 ? 'pointer-events-none' : 'pointer-events-auto'}`}>Следующий вопрос</Link>
       </div>
     </div>
