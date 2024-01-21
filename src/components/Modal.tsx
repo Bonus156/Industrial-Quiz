@@ -13,14 +13,13 @@ function Modal() {
         : 'hidden'}
         onClick={handleClick}
     >
-      <div className='w-32 h-32 bg-white' 
+      <div className='relative w-32 h-32 bg-white border border-black' 
         onClick={(e: MouseEvent<HTMLDivElement>) => e.stopPropagation()}
       >
         <div
-          className="inline-block self-end absolute cursor-pointer hover:scale-105"
-          onClick={handleClick}
+          className="inline-block absolute right-0 hover:scale-105"
         >
-          <SVGCross />
+          <SVGCross onClick={handleClick} />
         </div>
       </div>
     </div>

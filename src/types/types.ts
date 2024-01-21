@@ -27,3 +27,11 @@ export interface Save {
   theme: string;
   state: QState[];
 }
+
+export interface IconProps {
+  size?: number
+  onClick?: () => void
+  active?: boolean
+  className?: string
+}
+

@@ -6,7 +6,7 @@ import { Question } from "../components/Question";
 import { AnswerFormField, Theme } from '../types/types';
 import themes from "../json/questions.json";
 import { timer } from '../utils/timer';
-import { Modal } from '../components/Modal';
+// import { Modal } from '../components/Modal';
 
 export type QState = {
   isAnswered: boolean;
@@ -37,22 +37,13 @@ function QuizPage() {
   }, [timeLeft]);
 
   const saveToLS = () => {
-    localStorage.setItem('currentThemeState', JSON.stringify({theme: theme.themeRoute, qState}))
+    localStorage.setItem(`${theme.themeRoute}`, JSON.stringify({theme: theme.themeRoute, qState}))
   }
 
   useEffect(() => {
-    if (localStorage.getItem('currentThemeState') && JSON.parse(localStorage.getItem('currentThemeState') ?? '{}').theme === theme.themeRoute) {
-      const savedState: QState[] = JSON.parse(localStorage.getItem('currentThemeState') ?? '{}').qState;
-      const isSavedExam = confirm('У Вас есть незавершённый тест по этой теме. Продолжить предыдущую попытку?');
-      if (isSavedExam) {
-        setQState(savedState);
-        let unansweredQuestionNumber = savedState.find(state => !state.isAnswered)?.number;
-        if (window.location.pathname.slice(window.location.pathname.lastIndexOf('/') + 1) !== unansweredQuestionNumber?.toString()) {
-          console.log('window.location.pathname', window.location.pathname.slice(window.location.pathname.lastIndexOf('/') + 1));
-          // window.location.pathname = window.location.pathname.slice(0, window.location.pathname.lastIndexOf('/') + 1) + unansweredQuestionNumber;
-          // setQuestNum(unansweredQuestionNumber ?? 0)
-        }
-      }
+    if (localStorage.getItem(`${theme.themeRoute}`)) {
+      const savedState: QState[] = JSON.parse(localStorage.getItem(`${theme.themeRoute}`) ?? '{}').qState;
+      setQState(savedState);
     }
   },[])
   
@@ -69,7 +60,7 @@ function QuizPage() {
   
   return (
     <QuestionContext.Provider value={qState}>
-      <Modal />
+      {/* <Modal /> */}
       <div className='container mx-auto flex-grow'>
         <p className='px-2'>Подготовка к проверке знаний</p>
         <h2 className='lg:text-4xl sm:text-3xl my-3 px-2 text-2xl'>{theme?.theme}</h2>
