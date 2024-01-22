@@ -4,6 +4,7 @@ import { QState, QuestionContext } from "../pages/QuizPage";
 import { AnswerFormField } from "../types/types";
 import { AnswerMark } from "./QuestionMark";
 import { Link, useParams } from "react-router-dom";
+import { TheEnd } from "./TheEnd";
 
 type QuestionProps = {
   theme: Theme;
@@ -57,10 +58,10 @@ function AnswerForm(props: AnswerFormProps) {
     <form onSubmit={handleSubmit} >
       {props.question.answers.map((currAnswer, index) => (
         <div className="answer_variant flex w-full justify-between px-2 my-2" key={currAnswer}>
-          <label className="flex items-start" htmlFor={`variant-${props.num}_${index}`} onClick={onCheck}>
+          <label className="flex items-start cursor-pointer" htmlFor={`variant-${props.num}_${index}`} onClick={onCheck}>
             <input 
               type="radio"
-              className="variant-radio mr-1.5 mt-1.5"
+              className="variant-radio mr-1.5 mt-1.5 cursor-pointer"
               name="answer"
               id={`variant-${props.num}_${index}`}
               value={currAnswer}
@@ -88,9 +89,15 @@ export function Question(props: QuestionProps) {
   const {activeQuestion} = useParams();
   const qState: QState[] = useContext(QuestionContext);
   const questionNumber = Number(activeQuestion);
+  const [isAllQuestionsAnswered, setIsAllQuestionsAnswered] = useState<boolean>(false)
+
   useEffect(() => {
     props.setQuestionNumber(questionNumber);
   }, [questionNumber]);
+
+  useEffect(() => {
+    setIsAllQuestionsAnswered(!qState.some(question => !question.isAnswered))
+  }, [qState]);
   
   
   return (
@@ -118,7 +125,9 @@ export function Question(props: QuestionProps) {
       </div>
       <div className={`navigate-buttons flex w-full mt-10 ${!questionNumber ? 'justify-end' : 'justify-between'}`}>
         {!!questionNumber && <Link to={`/quiz/${props.theme.themeRoute}/${questionNumber - 1}`} className={`bg-secondary p-2 mr-3 hover:bg-sechover text-prev ${questionNumber === 0 ? 'pointer-events-none' : 'pointer-events-auto'}`}>Предыдущий вопрос</Link>}
-        <Link to={`/quiz/${props.theme.themeRoute}/${questionNumber + 1}`} className={`bg-primary p-2 hover:bg-primhover text-white ${questionNumber === props.theme.questions.length - 1 ? 'pointer-events-none' : 'pointer-events-auto'}`}>Следующий вопрос</Link>
+        {isAllQuestionsAnswered && (questionNumber === props.theme.questions.length - 1) ?
+        <TheEnd theme={props.theme} className="cursor-pointer bg-primary hover:bg-primhover text-white" />
+        : <Link to={`/quiz/${props.theme.themeRoute}/${questionNumber + 1}`} className={`bg-primary p-2 hover:bg-primhover text-white ${questionNumber === props.theme.questions.length - 1 ? 'pointer-events-none' : 'pointer-events-auto'}`}>Следующий вопрос</Link>}
       </div>
     </div>
   )

@@ -19,7 +19,7 @@ function TheEnd(props: TheEndProps) {
 
   return (
     // <div className={props.className} onClick={handleClick}>
-      <Link to='/themes' className={props.className}><span onClick={handleClick}>Закончить попытку...</span></Link>
+      <Link to='/themes' className={props.className}><span className='inline-block p-2' onClick={handleClick}>Закончить попытку...</span></Link>
     // </div>
   )
 }
