@@ -1,26 +1,30 @@
-import { useState, MouseEvent } from "react";
+import { MouseEvent, ReactNode } from "react";
 import SVGCross from "./cross"
 
-function Modal() {
-  const [isVisible, setIsVisible] = useState(true)
-  const handleClick = () => {
-    setIsVisible(false);
-  };
+export type ModalProps = {
+  children: ReactNode
+  isOpen: boolean
+  onClose: () => void
+}
+
+function Modal(props: ModalProps) {
+
   return (
     <div className={
-      isVisible
-        ? 'flex justify-center items-center w-screen h-screen fixed backdrop-blur inset-0 z-50'
+      props.isOpen
+        ? 'flex justify-center items-center w-screen h-screen fixed backdrop-blur inset-0 z-50 p-5'
         : 'hidden'}
-        onClick={handleClick}
+        onClick={props.onClose}
     >
-      <div className='relative w-32 h-32 bg-white border border-black' 
+      <div className='relative bg-white border border-gray-300 rounded' 
         onClick={(e: MouseEvent<HTMLDivElement>) => e.stopPropagation()}
       >
         <div
-          className="inline-block absolute right-0 hover:scale-105"
+          className="inline-block absolute right-0 hover:scale-105 p-2"
         >
-          <SVGCross onClick={handleClick} />
+          <SVGCross onClick={props.onClose} />
         </div>
+        <div className="pt-5">{props.children}</div>
       </div>
     </div>
   )

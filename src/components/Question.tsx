@@ -126,7 +126,7 @@ export function Question(props: QuestionProps) {
       <div className={`navigate-buttons flex w-full mt-10 ${!questionNumber ? 'justify-end' : 'justify-between'}`}>
         {!!questionNumber && <Link to={`/quiz/${props.theme.themeRoute}/${questionNumber - 1}`} className={`bg-secondary p-2 mr-3 hover:bg-sechover text-prev ${questionNumber === 0 ? 'pointer-events-none' : 'pointer-events-auto'}`}>Предыдущий вопрос</Link>}
         {isAllQuestionsAnswered && (questionNumber === props.theme.questions.length - 1) ?
-        <TheEnd theme={props.theme} className="cursor-pointer bg-primary hover:bg-primhover text-white" />
+        <TheEnd theme={props.theme} className="cursor-pointer bg-primary hover:bg-primhover text-white p-2" />
         : <Link to={`/quiz/${props.theme.themeRoute}/${questionNumber + 1}`} className={`bg-primary p-2 hover:bg-primhover text-white ${questionNumber === props.theme.questions.length - 1 ? 'pointer-events-none' : 'pointer-events-auto'}`}>Следующий вопрос</Link>}
       </div>
     </div>

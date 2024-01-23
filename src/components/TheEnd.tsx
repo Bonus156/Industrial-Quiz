@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
 import { Theme } from "../types/types";
-import { MouseEvent } from "react";
+import { MouseEvent, useState } from "react";
+import { Modal } from "./Modal";
 
 type TheEndProps = {
   className: string;
@@ -8,19 +8,39 @@ type TheEndProps = {
 }
 
 function TheEnd(props: TheEndProps) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const onCloseModal = () => {
+    setIsModalOpen(false);
+  }
+
   const handleClick = (e: MouseEvent) => {
-    const isRealyEnd = confirm('Вы уверены, что хотите закончить попытку?')
-    if (isRealyEnd) {
-      localStorage.removeItem(props.theme.themeRoute);
-    } else {
-      e.preventDefault()
-    }
+    setIsModalOpen(true);
+    e.preventDefault();
+  }
+
+  const onConfirm = () => {
+    localStorage.removeItem(props.theme.themeRoute);
+    location.pathname = '/themes';
+  }
+
+  const onCancel = () => {
+    setIsModalOpen(false);
   }
 
   return (
-    // <div className={props.className} onClick={handleClick}>
-      <Link to='/themes' className={props.className}><span className='inline-block p-2' onClick={handleClick}>Закончить попытку...</span></Link>
-    // </div>
+    <>
+      <span className={props.className} onClick={handleClick}>Закончить попытку...</span>
+      <Modal isOpen={isModalOpen} onClose={onCloseModal}>
+        <>
+          <div className='p-4 font-medium'>Вы уверены, что хотите закончить попытку?</div>
+          <div className='flex justify-around p-4'>
+            <button className="cursor-pointer bg-primary p-2 hover:bg-primhover text-white w-28" onClick={onConfirm}>Закончить</button>
+            <button className="cursor-pointer bg-secondary p-2 hover:bg-sechover text-prev w-28" onClick={onCancel}>Отмена</button>
+          </div>
+        </>
+      </ Modal>
+    </>
   )
 }
 
