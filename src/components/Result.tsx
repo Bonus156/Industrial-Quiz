@@ -1,4 +1,5 @@
 import { CurrentResult } from "../types/types";
+import { MINIMAL_SCORE } from "../utils/constants";
 
 type ResultProps = {
   attempt: number
@@ -14,7 +15,7 @@ function Result(props: ResultProps) {
       <td className='p-3 align-top text-center whitespace-nowrap'>{props.result.score}</td>
       <td className='p-3 align-top text-center'>{props.result.mark}</td>
       <td className='p-3 align-top text-center text-white font-bold text-2xl sm:table-cell hidden'>
-        <p className={`p-1 ${props.result.mark >= 80 ? 'bg-green-450' : 'bg-red-650'}`}>ТЕСТ {props.result.mark >= 80 ? '' : 'НЕ'} СДАН</p>
+        <p className={`p-1 ${props.result.mark >= MINIMAL_SCORE ? 'bg-green-450' : 'bg-red-650'}`}>ТЕСТ {props.result.mark >= MINIMAL_SCORE ? '' : 'НЕ'} СДАН</p>
       </td>
     </tr>
   )

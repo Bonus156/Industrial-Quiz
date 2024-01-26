@@ -1,0 +1,1 @@
+export const MINIMAL_SCORE = 80;
