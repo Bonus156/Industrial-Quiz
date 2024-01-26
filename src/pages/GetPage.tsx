@@ -35,7 +35,7 @@ export function GetPage() {
         jsonArea.current.value = jsonText;
       }
     } catch(error) {
-      console.log('something get wrong.\n', error); // переписать эту обработку ошибок
+      console.log('something get wrong.\n', error); // TODO переписать эту обработку ошибок
       if (jsonArea.current) {
         jsonArea.current.value = 'Что-то пошло не так';
       }

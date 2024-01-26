@@ -71,7 +71,7 @@ function QuizPage() {
             </Routes>
           </div>
           <aside className="test-navigation border p-2 xl:w-96 shrink-0 border-gray-300">
-            <TheEnd theme={theme} className="cursor-pointer text-blue hover:text-linkhover hover:underline" />
+            <TheEnd theme={theme} qState={qState} className="cursor-pointer text-blue hover:text-linkhover hover:underline" />
             <div className='mt-3'>Оставшееся время: <span className='font-bold'>{timeLeft}</span></div>
             <div className='md:mt-5 mb-2 font-thin text-lg'>Навигация по тесту</div>
             <ol className="flex flex-wrap list-inside gap-1.5">{questions.map((_, number) => (

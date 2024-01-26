@@ -34,3 +34,14 @@ export interface IconProps {
   active?: boolean
   className?: string
 }
+
+export type CurrentResult = {
+  date: string;
+  score: string;
+  mark: number;
+}
+
+export type ResultType = {
+  theme: string;
+  results: CurrentResult[];
+}

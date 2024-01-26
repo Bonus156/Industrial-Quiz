@@ -19,10 +19,12 @@ module.exports = {
         'pink': '#e83e8c',
         'red': {
           550: '#d43f3a', //question mark bg and incorrect mark
+          650: '#d9534f', //test failed
           },
         'orange': '#f0ad4e',
         'yellow': '#ff7518',
         'green': {
+          450: '#5cb85c', //test win
           650: '#398439', //question mark bg and correct mark
           },
         'teal': '#20c997',
