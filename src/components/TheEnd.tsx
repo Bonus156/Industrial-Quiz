@@ -50,7 +50,6 @@ function TheEnd(props: TheEndProps) {
     }
     localStorage.setItem('results', JSON.stringify(results));
     localStorage.removeItem(props.theme.themeRoute);
-    // location.pathname = '/results';
   }
 
   const onCancel = () => {
