@@ -50,7 +50,7 @@ function QuizPage() {
   
   const onGiveAnswer = (formField: AnswerFormField) => {
     const currentQuestionState = qState.find((question) => question.number === formField.num);
-    if (currentQuestionState) {
+    if (currentQuestionState && formField.indexAnswer !== -1) {
       currentQuestionState.isAnswered = true;
       currentQuestionState.isCorrect = formField.isCorrect;
       currentQuestionState.index = formField.indexAnswer;

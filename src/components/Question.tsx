@@ -31,19 +31,20 @@ function AnswerForm(props: AnswerFormProps) {
     event.preventDefault();
     const form = event.currentTarget;
     const { answer } = form;
+    const indexAnswer = Array.from(answer).findIndex((input) => (input as HTMLInputElement).checked === true);
     props.onGiveAnswer({
       answer: answer.value,
       num: props.num,
       isCorrect: props.question.rightAnswer.slice(18) === answer.value,
       correctAnswer: props.question.rightAnswer,
-      indexAnswer: Array.from(answer).findIndex((input) => (input as HTMLInputElement).checked === true),
+      indexAnswer: indexAnswer,
     });
-    if (qState[props.num].index !== -1) {
+    if (indexAnswer !== -1) {
       qState[props.num].isAnswered = true;
     } else {
       setIsSubmitWithoutCheckedAnswer(true);
     }
-    setIsCheckedAnswer(false)
+    setIsCheckedAnswer(false);
   }
 
   const onCheck = () => {
@@ -59,7 +60,6 @@ function AnswerForm(props: AnswerFormProps) {
   }
 
   useEffect(() => {
-    // setIsCheckedAnswer(false)
     cancelChoice();
     setIsSubmitWithoutCheckedAnswer(false);
   }, [props.num])
@@ -84,17 +84,17 @@ function AnswerForm(props: AnswerFormProps) {
           <div className="mark relative m-1.5"><AnswerMark num={props.num} index={index} /></div>
         </div>
       ))}
-      {!qState[props.num].isAnswered && 
+      {!qState[props.num].isAnswered && isCheckedAnswer &&
         <div className="cursor-pointer text-blue hover:text-linkhover hover:underline" onClick={cancelChoice}>Очистить мой выбор</div>
         }
-      {isSubmitWithoutCheckedAnswer && 
+      {isSubmitWithoutCheckedAnswer && !qState[props.num].isAnswered &&
         <div className="text-red-550" >Пожалуйста, выберите ответ</div>
         }
-      {!qState[props.num].isAnswered && isCheckedAnswer &&
+      {!qState[props.num].isAnswered && // isCheckedAnswer &&
         <input type="submit"
           className="border cursor-pointer bg-secondary p-2 my-2 hover:bg-sechover text-prev"
           value="Ответить"
-          disabled={qState[props.num].isAnswered} />}
+          disabled={qState[props.num].isAnswered || isSubmitWithoutCheckedAnswer} />}
     </form>
   )
 }
