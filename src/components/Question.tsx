@@ -25,6 +25,7 @@ type AnsFormFields = {
 function AnswerForm(props: AnswerFormProps) {
   const qState: QState[] = useContext(QuestionContext);
   const [isCheckedAnswer, setIsCheckedAnswer] = useState<boolean>(false)
+  const [isSubmitWithoutCheckedAnswer, setIsSubmitWithoutCheckedAnswer] = useState<boolean>(false)
   
   const handleSubmit: React.FormEventHandler<HTMLFormElement & AnsFormFields> = (event) => {
     event.preventDefault();
@@ -37,21 +38,30 @@ function AnswerForm(props: AnswerFormProps) {
       correctAnswer: props.question.rightAnswer,
       indexAnswer: Array.from(answer).findIndex((input) => (input as HTMLInputElement).checked === true),
     });
-    qState[props.num].isAnswered = true;
+    if (qState[props.num].index !== -1) {
+      qState[props.num].isAnswered = true;
+    } else {
+      setIsSubmitWithoutCheckedAnswer(true);
+    }
     setIsCheckedAnswer(false)
   }
 
   const onCheck = () => {
-    setIsCheckedAnswer(true)
+    setIsCheckedAnswer(true);
+    setIsSubmitWithoutCheckedAnswer(false);
   }
 
   const cancelChoice = () => {
     setIsCheckedAnswer(false);
-    (document.querySelector('input[type="radio"]:checked') as HTMLInputElement).checked = false;
+    if (document.querySelector('input[type="radio"]:checked') && !qState[props.num].isAnswered) {
+      (document.querySelector('input[type="radio"]:checked') as HTMLInputElement).checked = false;
+    } else return
   }
 
   useEffect(() => {
-    setIsCheckedAnswer(false)
+    // setIsCheckedAnswer(false)
+    cancelChoice();
+    setIsSubmitWithoutCheckedAnswer(false);
   }, [props.num])
 
   return (
@@ -74,8 +84,12 @@ function AnswerForm(props: AnswerFormProps) {
           <div className="mark relative m-1.5"><AnswerMark num={props.num} index={index} /></div>
         </div>
       ))}
-      {!qState[props.num].isAnswered && isCheckedAnswer &&
-        <div className="cursor-pointer text-blue hover:text-linkhover hover:underline" onClick={cancelChoice}>Очистить мой выбор</div>}
+      {!qState[props.num].isAnswered && 
+        <div className="cursor-pointer text-blue hover:text-linkhover hover:underline" onClick={cancelChoice}>Очистить мой выбор</div>
+        }
+      {isSubmitWithoutCheckedAnswer && 
+        <div className="text-red-550" >Пожалуйста, выберите ответ</div>
+        }
       {!qState[props.num].isAnswered && isCheckedAnswer &&
         <input type="submit"
           className="border cursor-pointer bg-secondary p-2 my-2 hover:bg-sechover text-prev"
