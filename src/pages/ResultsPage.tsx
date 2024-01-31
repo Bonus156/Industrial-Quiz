@@ -15,9 +15,9 @@ function ResultsPage() {
   return (
     <div className="container mx-auto flex-grow">
       {Boolean(results.length) && !themeRoute &&
-        results.map(result => {
+        results.map((result, index) => {
           return (
-            <ResultsBox themeName={themes.find(theme => theme.themeRoute === result.theme)?.theme ?? ''}>
+            <ResultsBox themeName={themes.find(theme => theme.themeRoute === result.theme)?.theme ?? ''} key={index}>
               {result.results.map((attempt, index) => {
                 return <Result attempt={index + 1} result={attempt} key={index} />
                 })

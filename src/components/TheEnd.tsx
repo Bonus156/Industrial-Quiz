@@ -59,7 +59,7 @@ function TheEnd(props: TheEndProps) {
   return (
     <>
       <span className={props.className} onClick={handleClick}>Закончить попытку...</span>
-      <Modal isOpen={isModalOpen} onClose={onCloseModal}>
+      {isModalOpen && <Modal onClose={onCloseModal}>
         <>
           <div className='p-4 font-medium'>Вы уверены, что хотите закончить попытку?</div>
           <div className='flex justify-around p-4'>
@@ -69,7 +69,7 @@ function TheEnd(props: TheEndProps) {
             <button className="cursor-pointer bg-secondary p-2 hover:bg-sechover text-prev w-28" onClick={onCancel}>Отмена</button>
           </div>
         </>
-      </ Modal>
+      </ Modal>}
     </>
   )
 }
