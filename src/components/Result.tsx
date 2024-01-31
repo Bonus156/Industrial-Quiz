@@ -6,16 +6,16 @@ type ResultProps = {
   result: CurrentResult;
 }
 
-function Result(props: ResultProps) {
+function Result({attempt, result}: ResultProps) {
 
   return (
     <tr className='border-t border-gray-350 border-solid'>
-      <td className='p-3 align-top text-center'>{props.attempt}</td>
-      <td className='p-3 align-top text-left'>Завершён<br/><span>{props.result.date}</span></td>
-      <td className='p-3 align-top text-center whitespace-nowrap'>{props.result.score}</td>
-      <td className='p-3 align-top text-center'>{props.result.mark}</td>
+      <td className='p-3 align-top text-center'>{attempt}</td>
+      <td className='p-3 align-top text-left'>Завершён<br/><span>{result.date}</span></td>
+      <td className='p-3 align-top text-center whitespace-nowrap'>{result.score}</td>
+      <td className='p-3 align-top text-center'>{result.mark}</td>
       <td className='p-3 align-top text-center text-white font-bold text-2xl sm:table-cell hidden'>
-        <p className={`p-1 ${props.result.mark >= MINIMAL_SCORE ? 'bg-green-450' : 'bg-red-650'}`}>ТЕСТ {props.result.mark >= MINIMAL_SCORE ? '' : 'НЕ'} СДАН</p>
+        <p className={`p-1 ${result.mark >= MINIMAL_SCORE ? 'bg-green-450' : 'bg-red-650'}`}>ТЕСТ {result.mark >= MINIMAL_SCORE ? '' : 'НЕ'} СДАН</p>
       </td>
     </tr>
   )
