@@ -17,7 +17,7 @@ function ResultsPage() {
       {Boolean(results.length) && !themeRoute &&
         results.map((result, index) => {
           return (
-            <ResultsBox themeName={themes.find(theme => theme.themeRoute === result.theme)?.theme ?? ''} key={index}>
+            <ResultsBox theme={themes.find(theme => theme.themeRoute === result.theme)} key={index}>
               {result.results.map((attempt, index) => {
                 return <Result attempt={index + 1} result={attempt} key={index} />
                 })
@@ -27,7 +27,7 @@ function ResultsPage() {
         })
       }
       {Boolean(results.length) && themeRoute &&
-        <ResultsBox themeName={theme?.theme ?? ''}>
+        <ResultsBox theme={theme}>
           {currentThemeResults && 
             currentThemeResults.map((attempt, index) => {
               return <Result attempt={index + 1} result={attempt} key={index} />

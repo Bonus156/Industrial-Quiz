@@ -67,8 +67,7 @@ function TheEnd({className, theme, qState}: TheEndProps) {
       <span className={className} onClick={handleClick}>Закончить попытку...</span>
       {isModalOpen && <Modal onClose={onCloseModal}>
         <>
-          
-          <div className='p-4 font-medium'>{!isAnsweredAnyQuestion && <span className='font-medium'>Вы не дали ответ ни на один вопрос.<br/></span>}Вы уверены, что хотите закончить попытку?</div>
+          <div className='p-4 font-medium'>{!isAnsweredAnyQuestion && <span className='font-medium'>Вы не ответили ни на один вопрос.<br/></span>}Вы уверены, что хотите закончить попытку?</div>
           <div className='flex justify-around p-4'>
             <Link to={isAnsweredAnyQuestion ? `/results/${theme.themeRoute}` : '/themes'}>
               <button className="cursor-pointer bg-primary p-2 hover:bg-primhover text-white w-28" onClick={onConfirm}>Закончить</button>
