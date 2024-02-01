@@ -24,7 +24,7 @@ function ResultsBox({theme, children}: ResultsBoxProps) {
     <section className="p-4 my-3 border border-solid border-gray-300">
         <h3 className='px-2 lg:text-2xl md:text-xl sm:text-lg text-base'>{theme?.theme}</h3>
         <Link to={`/quiz/${theme?.themeRoute}/${startQuestionIndex}`} className="block w-fit mx-auto cursor-pointer bg-secondary p-2 hover:bg-sechover text-prev">
-          {isTestStarted ? 'Продолжить тест' : 'Пройти тест заново'}
+          {isTestStarted ? 'Продолжить последнюю попытку' : 'Пройти тест заново'}
         </Link>
         <p className='px-2 my-3'>Результаты ваших предыдущих попыток:</p>
         <table className='w-full text-prev mb-4  text-sm sm:text-base'>

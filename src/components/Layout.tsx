@@ -1,6 +1,7 @@
 import { NavLink, Outlet } from "react-router-dom";
 
 const Layout = () => {
+  const currentYear = new Date().getFullYear();
   return (
     <>
       <header className="bg-gray-100">
@@ -17,7 +18,7 @@ const Layout = () => {
       <Outlet />
       <footer className="bg-gray-100">
         <div className="container mx-auto text-center my-2">
-          2023
+          {`2023 - ${currentYear}`}
         </div>
       </footer>
     </>
