@@ -23,8 +23,14 @@ function QuizPage() {
   const {themeRoute} = useParams();
   const [timeLeft, setTimeLeft] = useState(timer());
   const [disactive, setDisactive] = useState(false);
-    
-  const theme = themes.find((currentTheme) => currentTheme.themeRoute === themeRoute) as Theme;
+
+  const DEFAULT_THEME: Theme = {
+    theme: 'Неверный путь к странице с тестом. Такой темы нет.',
+    themeRoute: '',
+    questions: []
+  }
+
+  const theme: Theme = themes.find((currentTheme) => currentTheme.themeRoute === themeRoute) ?? DEFAULT_THEME;
   const questions = theme.questions;
   const initialQState = new Array(questions.length).fill('').map((_, i) => ({isAnswered: false, isCorrect: false, number: i, index: -1}))
   const [qState, setQState] = useState<QState[]>(initialQState);

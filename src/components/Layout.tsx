@@ -1,7 +1,33 @@
+import { useEffect, useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 
 const Layout = () => {
+  const [isBlur, setIsBlur] = useState(false);
+  
+  useEffect(() => {
+    const devToolsPreventer = (e: KeyboardEvent) => {
+      if (e.code === 'F12') {
+        e.preventDefault();
+        setIsBlur(true);
+      }
+      if (e.code === 'Escape') {
+        setIsBlur(false);
+      }
+    };
+    const contextMenuPreventer = (e: MouseEvent) => {
+      e.preventDefault();
+      setIsBlur(prev => !prev);
+    }
+    document.addEventListener('keydown', devToolsPreventer);
+    document.addEventListener('contextmenu', contextMenuPreventer);
+    return () => {
+      document.removeEventListener('keydown', devToolsPreventer);
+      document.removeEventListener('contextmenu', contextMenuPreventer);
+    }
+  }, []);
+
   const currentYear = new Date().getFullYear();
+
   return (
     <>
       <header className="bg-gray-100">
@@ -15,7 +41,9 @@ const Layout = () => {
           </div>
         </div>
       </header>
-      <Outlet />
+      <main className={`flex-grow ${isBlur ? 'blur' : ''}`}>
+        <Outlet />
+      </main>
       <footer className="bg-gray-100">
         <div className="container mx-auto text-center my-2">
           {`2023 - ${currentYear}`}

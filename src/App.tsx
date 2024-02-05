@@ -14,6 +14,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
           <Route path="quiz/:themeRoute/*" element={<QuizPage />} />
+          <Route path="quiz/:themeRoute" element={<NotFoundPage />} />
           <Route path="themes" element={<ThemesPage />} />
           <Route path="results" element={<ResultsPage />} />
           <Route path="results/:themeRoute" element={<ResultsPage />} />
