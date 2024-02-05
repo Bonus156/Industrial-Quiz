@@ -30,10 +30,10 @@ function ResultsBox({theme, children}: ResultsBoxProps) {
         <table className='w-full text-prev mb-4  text-sm sm:text-base'>
           <thead>
             <tr className='border-b-2 border-t border-gray-350 border-solid'>
-              <th className='p-3 align-bottom text-center'>Попытка</th>
+              <th className='p-3 align-bottom text-center'><span className='hidden sm:inline'>Попытка</span><span className='sm:hidden inline'>№</span></th>
               <th className='p-3 align-bottom text-left'>Состояние</th>
               <th className='p-3 align-bottom text-center'>Баллы</th>
-              <th className='p-3 align-bottom text-center'>Оценка/100</th>
+              <th className='p-3 align-bottom text-center'>Оценка<span className='hidden sm:inline'>/100</span></th>
               <th className='p-3 align-bottom text-left sm:table-cell hidden'>Отзыв</th>
             </tr>
           </thead>
