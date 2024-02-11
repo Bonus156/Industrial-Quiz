@@ -51,6 +51,9 @@ module.exports = {
         'light': '#f8f9fa',
         'dark': '#343a40',
       },
+      boxShadow: {
+        'focus': '0 0 0 .2rem rgba(17,119,209,.75)',
+      },
     },    
   },
   plugins: [],
