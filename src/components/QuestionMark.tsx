@@ -1,8 +1,9 @@
 import { useContext } from 'react';
 import { QState, QuestionContext } from '../pages/QuizPage';
+import { Link } from 'react-router-dom';
 
 type QMProps = {
-  num: number;
+  number: number;
   questNum: number;
 }
 
@@ -11,12 +12,14 @@ type AMProps = {
   index: number;
 }
 
-export function QuestionMark(props: QMProps) {
+export function QuestionMark({number, questNum}: QMProps) {
   const qState: QState[] = useContext(QuestionContext);
 
   return (
-    <li className={`nav-item relative cursor-pointer shrink-0 list-decimal list-inside w-[var(--nav-element-w)] h-[var(--nav-element-h)] text-center ${props.num === props.questNum ? 'border-2' : 'border'} border-solid rounded border-black hover:underline`}>
-      <div className={`${qState[props.num].isAnswered ? qState[props.num].isCorrect ? 'correct' : 'incorrect' : ''} correct-mark w-full h-1/2 rounded-b-sm absolute bottom-0 after:absolute after:border-solid after:border-white after:border-r-3 after:border-b-3 after:rotate-45 after:w-2 after:h-3 after:inset-x-1/3 after:bottom-1.5`}></div>
+    <li className={`nav-item relative cursor-pointer shrink-0 list-decimal list-inside w-[var(--nav-element-w)] h-[var(--nav-element-h)] text-center ${number === questNum ? 'border-2' : 'border'} border-solid rounded border-black hover:underline`}>
+      <Link to={number.toString()} className='block h-full w-full absolute inset-0' key={number} title={qState[number].isAnswered ? qState[number].isCorrect ? 'Верно' : 'Неверно' : 'Не завершено'}>
+        <div className={`${qState[number].isAnswered ? qState[number].isCorrect ? 'correct' : 'incorrect' : ''} correct-mark w-full h-1/2 rounded-b-sm absolute bottom-0 after:absolute after:border-solid after:border-white after:border-r-3 after:border-b-3 after:rotate-45 after:w-2 after:h-3 after:inset-x-1/3 after:bottom-1.5`}></div>
+      </Link>
     </li>
   )
 }
