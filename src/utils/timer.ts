@@ -1,4 +1,4 @@
-export const endDate = new Date(2024, 9, 30, 17, 0, 0);
+export const endDate = new Date(2025, 9, 30, 17, 0, 0);
 
 export function timer() {
   const restSeconds = Math.floor((endDate.getTime() - new Date().getTime())/1000);
